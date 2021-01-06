@@ -13,12 +13,15 @@ public class BuscadorNotas {
 		}
 		else if(args.length == 0) {
 			System.out.println("ERROR, no se han introducido argumentos");
+			return;
 		}
 		else if(args.length == 1) {
 			System.out.println("ERROR, argumentos insuficientes");
+			return;
 		}
 		else {
 			System.out.println("ERROR, demasiados argumentos");
+			return;
 		}
 		
 		if(nota > 10 || nota < 1) {
@@ -26,7 +29,7 @@ public class BuscadorNotas {
 			return;
 		}
 		
-		System.out.println("Bienvenido "+args[0]);
+		System.out.println("Bienvenido/a "+args[0]);
 		
 		if(nota < 5) {
 			resultado = "Insuficiente";
