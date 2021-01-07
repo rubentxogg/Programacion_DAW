@@ -31,11 +31,6 @@ public class BuscadorNotas {
 		
 		System.out.println("Bienvenido/a "+args[0]);
 		
-		if(nota < 5) {
-			resultado = "Insuficiente";
-			
-		}
-		
 		switch(nota) {
 				case 5: resultado = "aprobado";
 						break;
