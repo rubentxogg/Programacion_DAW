@@ -24,5 +24,15 @@ public class ProgramaPrueba {
 					
 			}
 		}
+		
+		String[][] arrayDeNombres = { { "pepe", "juan", "kike" }, { "lou", "kiko", "r. iniesta" },
+				{ "e. paramos", "bowie", "pepito" } };
+		
+		for (String[] x : arrayDeNombres) {
+			System.out.println();
+			for (String s : x) {
+				System.out.println(s + " ");
+			}
+		}
 	}
 }
