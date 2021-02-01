@@ -6,11 +6,7 @@ import java.util.Scanner;
  * Clase Numbers con métodos relacionados con los números
  */
 public class Numbers {
-	int num1;
-	int num2;
-	int num3;
-	int num4;
-	int num5;
+	int num1,num2,num3,num4,num5;
 	int media;
 	int suma;
 	int product;
