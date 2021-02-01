@@ -42,6 +42,7 @@ public class Numbers {
 		sumaNum();
 		productNum();
 		mostrarResult();
+		sc.close();
 	}
 	
 	/**
