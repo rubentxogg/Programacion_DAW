@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 /**
  * @author Rubén García García
- * Clase Numbers con métodos relacionados con los números
+ * Clase Numbers con métodos relacionados con los números.
  */
 public class Numbers {
 	int[] arrayNum;
