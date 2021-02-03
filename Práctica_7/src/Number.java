@@ -48,16 +48,18 @@ public class Number {
 	 */
 	public void arrayBidimensional() {
 		Scanner sc = new Scanner(System.in);
-		int filas, columnas;
+		int filas, dimension1, dimension2;
 		
 		System.out.println("-----------------------------------------------------------------");
 		System.out.print("Introduzca la cantidad de filas que desea introducir: ");
 		filas = sc.nextInt();
-	
-		System.out.print("Introduzca la cantidad de columnas que desea introducir: ");
-		columnas = sc.nextInt();
-		arrayBiNum = new int[filas][columnas];
 		
+		arrayBiNum = new int[filas][]; // Al array bidimensional le indicamos el número de filas "filas" que le introducimos anteriormente y no le indicamos las columnas
+		
+		for(int x=0;x<filas;x++) { // Mientras x sea menor al número de filas introducido seguirá funcionando el bucle
+			System.out.print("Introduzca la cantidad de columnas que desea introducir en la fila "+x+": "); // Le pedimos al usuario el número de columnas que quiere en la fila x
+			arrayBiNum[x] = new int[sc.nextInt()]; // Asignamos a la fila x el número de columnas que tendrá
+		}
 		
 		for(int i=0;i<arrayBiNum.length;i++) {
 			for(int j=0;j<arrayBiNum[i].length;j++) {
