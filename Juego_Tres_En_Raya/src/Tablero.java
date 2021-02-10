@@ -8,24 +8,34 @@ import java.util.Scanner;
 public class Tablero {
 	
 	// Atributos
-	private char jugadorActual;
+	private char jugadorActual; // Representa al jugador 'x' u 'o'
 	private char[][] arrayChar;
 	private int filas = 3, columnas = 3;
+	private boolean ganador = false; // Me servirá más tarde para el método tableroLleno()
 	
 	// Método constructor que inicializa el tablero
 	public void iniciaTablero() {
+		System.out.println("Bienvenidx al juego");
 		arrayChar = new char[filas][columnas];
-		Arrays.fill(arrayChar,"-");
-		jugadorActual = 'x';
+		for(int i=0;i<arrayChar.length;i++) {
+			Arrays.fill(arrayChar[i], '-'); // Llena cada columna con el caracter '-'
+		}
+		jugadorActual = 'X';
 	}
 	
 	// Método que imprimirá por consola el tablero
 	public void imprimeTablero() {
+		int cont = 0; // Creo un contador para indicar la fila
+		System.out.print("\n    1     2     3");
 		for(char[] x : arrayChar) {
+			cont += 1; // Por cada fila suma 1, logrando representar el número de fila
+			System.out.println("\n  -----------------");
+			System.out.print(cont+" ");
 			for(char y : x) {
-				System.out.println(x);
+				System.out.print("| "+y+" | ");
 			}
 		}
+		System.out.println("\n  -----------------");
 	}
 	
 	// Método que pedirá una posición al usuario y validará o invalidará su movimiento
@@ -35,19 +45,31 @@ public class Tablero {
 		Scanner sc = new Scanner(System.in);
 		
 		while(movimiento == false) {
-			System.out.print("Introduzca una fila: ");
+			System.out.print("\nJugador "+jugadorActual+", introduzca una fila: ");
 			updFila = sc.nextInt();
-			
-			System.out.print("Introduzca una columna: ");
-			updColumna = sc.nextInt();
-			
-			if(arrayChar[updFila][updColumna] == jugadorActual) {
-				System.out.println("Ha seleccionado una posición inválida (posición elegida anteriormente), vuelva a intentarlo.");
+			updFila -= 1; // Restamos -1 a la fila para que funcionen los índices establecidos
+			if(updFila > 2 | updFila < 0 ) {
+				System.out.println("\nHa seleccionado una posición inválida (fuera del rango del tablero), vuelva a intentarlo.");
+				imprimeTablero();
+				continue;
 			}
-			else if(updFila > 3 || updFila < 0 || updColumna > 3 || updColumna < 0) {
-				System.out.println("Ha seleccionado una posición inválida (fuera del rango del tablero), vuelva a intentarlo.");
+			
+			System.out.print("Jugador "+jugadorActual+", introduzca una columna: ");
+			updColumna = sc.nextInt();
+			updColumna -= 1; // Restamos -1 a la columna elegida para que funcionen los índices establecidos
+			if(updColumna > 2 | updColumna < 0 ) {
+				System.out.println("\nHa seleccionado una posición inválida (fuera del rango del tablero), vuelva a intentarlo.");
+				imprimeTablero();
+				continue;
+			}
+			
+			if(arrayChar[updFila][updColumna] == 'X' || arrayChar[updFila][updColumna] == 'O') {
+				System.out.println("\nHa seleccionado una posición inválida (posición elegida anteriormente), vuelva a intentarlo.");
+				imprimeTablero();
+				continue;
 			}
 			else {
+				arrayChar[updFila][updColumna] = jugadorActual; 
 				movimiento = true;
 			}
 		}
@@ -55,25 +77,47 @@ public class Tablero {
 	
 	// Método que comprobará si existe un ganador en el juego, en el caso de haberlo devolverá true y en caso contrario false
 	public void chequeaGanador() {
-		chequeaFilas();
-		chequeaColumnas();
-		chequeaDiagonales();
+//		chequeaFilas();
+//		if(ganador == true) {
+//			System.exit(0);
+//		}
+//		
+//		chequeaColumnas();
+//		if(ganador == true) {
+//			System.exit(0);
+//		}
+//		
+//		chequeaDiagonales();
+//		if(ganador == true) {
+//			System.exit(0);
+//		}
+		
+		if(chequeaFilas() == true || chequeaColumnas() == true || chequeaDiagonales() == true) {
+			System.exit(0); // Terminamos el programa
+		}
 	}
 	
 	// Método que comprueba que haya tres en raya en las filas
 	public boolean chequeaFilas() {
 		
 		if(arrayChar[0][0] == jugadorActual && arrayChar[0][1] == jugadorActual && arrayChar[0][2] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por fila!");
+			ganador = true;
+			return ganador;
 		}
 		else if(arrayChar[1][0] == jugadorActual && arrayChar[1][1] == jugadorActual && arrayChar[1][2] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por fila!");
+			ganador = true;
+			return ganador;
 		}
 		else if(arrayChar[2][0] == jugadorActual && arrayChar[2][1] == jugadorActual && arrayChar[2][2] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por fila!");
+			ganador = true;
+			return ganador;
 		}
 		else {
-			return false;
+			ganador = false;
+			return ganador;
 		}
 	}
 	
@@ -81,29 +125,75 @@ public class Tablero {
 	public boolean chequeaColumnas() {
 		
 		if(arrayChar[0][0] == jugadorActual && arrayChar[1][0] == jugadorActual && arrayChar[2][0] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por columna!");
+			ganador = true;
+			return ganador;
 		}
 		else if(arrayChar[0][1] == jugadorActual && arrayChar[1][1] == jugadorActual && arrayChar[2][1] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por columna!");
+			ganador = true;
+			return ganador;
 		}
 		else if(arrayChar[0][2] == jugadorActual && arrayChar[1][2] == jugadorActual && arrayChar[2][2] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por columna!");
+			ganador = true;
+			return ganador;
 		}
 		else {
-			return false;
+			ganador = false;
+			return ganador;
 		}
 	}
 	
 	// Método que comprueba que haya tres en raya en las diagonales
 	public boolean chequeaDiagonales() {
 		if(arrayChar[0][0] == jugadorActual && arrayChar[1][1] == jugadorActual && arrayChar[2][2] == jugadorActual) {
-			return true;
+			System.out.println("\n¡"+jugadorActual+" gana la partida por diagonal!");
+			ganador = true;
+			return ganador;
 		}
 		else if(arrayChar[0][2] == jugadorActual && arrayChar[1][1] == jugadorActual && arrayChar[2][0] == jugadorActual) {
+			System.out.println("\n¡"+jugadorActual+" gana la partida por diagonal!");
+			ganador = true;
+			return ganador;
+		}
+		else {
+			ganador = false;
+			return ganador;
+		}
+	}
+	
+	// Método que recorre todas las casillas y comprueba que estén llenas
+	public boolean tableroLLeno() {
+		int cont = 0;
+		for(int i=0;i<arrayChar.length;i++) {
+			for(int j=0;j<arrayChar[i].length;j++) {
+				if(arrayChar[i][j] != '-') {
+					cont++;
+				}
+			}
+		}
+		
+		if(cont == 9 && ganador == false) { // Si el contador ha llegado a 9 significa que todas las casillas están ocupadas, por lo tanto hay un empate
+			System.out.println("\n¡Empate técnico!, todas las casillas han sido ocupadas.");
+			System.exit(0); // Terminamos el programa
 			return true;
 		}
 		else {
 			return false;
 		}
+		
 	}
+	
+	// Método que chequea cual es el jugador actual y lo cambia al opuesto
+	public void cambiaJugador() {
+		
+		if(jugadorActual == 'X') {
+			jugadorActual = 'O';
+		}
+		else {
+			jugadorActual = 'X';
+		}
+	}
+	
 }
