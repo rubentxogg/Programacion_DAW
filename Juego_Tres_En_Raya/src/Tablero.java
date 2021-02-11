@@ -13,9 +13,15 @@ public class Tablero {
 	private int filas = 3, columnas = 3;
 	private boolean ganador = false; // Me servirá más tarde para el método tableroLleno()
 	
-	// Método constructor que inicializa el tablero
+	// Método que inicializa el tablero (lo usaremos en el método constructor de la clase Juego)
 	public void iniciaTablero() {
-		System.out.println("Bienvenidx al juego");
+		Scanner start = new Scanner(System.in);
+		System.out.println("\t\t\t<------ Tres en raya ------>"
+				+ "\nCada jugador solo debe colocar su símbolo una vez por turno y no debe ser sobre una casilla ya jugada."
+				+ "\nSe debe conseguir realizar una línea recta o diagonal por símbolo."
+				+ "\n¿Preparado/a? Pulsa enter para comenzar:");
+		start.nextLine();
+				
 		arrayChar = new char[filas][columnas];
 		for(int i=0;i<arrayChar.length;i++) {
 			Arrays.fill(arrayChar[i], '-'); // Llena cada columna con el caracter '-'
@@ -49,7 +55,9 @@ public class Tablero {
 			updFila = sc.nextInt();
 			updFila -= 1; // Restamos -1 a la fila para que funcionen los índices establecidos
 			if(updFila > 2 | updFila < 0 ) {
-				System.out.println("\nHa seleccionado una posición inválida (fuera del rango del tablero), vuelva a intentarlo.");
+				System.out.println("\nLa fila seleccionada está fuera del rango del tablero, pulse [ENTER] para volver a intentarlo.");
+				sc.nextLine();
+				sc.nextLine();
 				imprimeTablero();
 				continue;
 			}
@@ -58,13 +66,17 @@ public class Tablero {
 			updColumna = sc.nextInt();
 			updColumna -= 1; // Restamos -1 a la columna elegida para que funcionen los índices establecidos
 			if(updColumna > 2 | updColumna < 0 ) {
-				System.out.println("\nHa seleccionado una posición inválida (fuera del rango del tablero), vuelva a intentarlo.");
+				System.out.println("\nLa columna seleccionada está fuera del rango del tablero, pulse [ENTER] para volver a intentarlo.");
+				sc.nextLine();
+				sc.nextLine();
 				imprimeTablero();
 				continue;
 			}
 			
 			if(arrayChar[updFila][updColumna] == 'X' || arrayChar[updFila][updColumna] == 'O') {
-				System.out.println("\nHa seleccionado una posición inválida (posición elegida anteriormente), vuelva a intentarlo.");
+				System.out.println("\nLa fila seleccionada ya está ocupada, pulse [ENTER] para volver a intentarlo.");
+				sc.nextLine();
+				sc.nextLine();
 				imprimeTablero();
 				continue;
 			}
