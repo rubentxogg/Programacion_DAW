@@ -24,7 +24,7 @@ public class Tablero {
 				
 		arrayChar = new char[filas][columnas];
 		for(int i=0;i<arrayChar.length;i++) {
-			Arrays.fill(arrayChar[i], '-'); // Llena cada columna con el caracter '-'
+			Arrays.fill(arrayChar[i], '-'); // Llena cada fila con el caracter '-'
 		}
 		jugadorActual = 'X';
 	}
