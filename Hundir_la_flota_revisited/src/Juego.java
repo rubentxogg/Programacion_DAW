@@ -4,9 +4,13 @@
  * Clase que se encarga del flujo del juego
  */
 public class Juego {
-	
+
 	public Juego() {
-		Tablero b = new Tablero();
-		b.initGameGoard();
+		Tablero t = new Tablero();
+		t.initGameBoard();
+		t.showGameBoard();
+		t.placeShips();
+		t.showGameBoard();
+
 	}
 }
