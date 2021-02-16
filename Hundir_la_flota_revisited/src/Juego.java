@@ -7,10 +7,16 @@ public class Juego {
 
 	public Juego() {
 		Tablero t = new Tablero();
-		t.initGameBoard();
-		t.showGameBoard();
-		t.placeShips();
-		t.showGameBoard();
-
+		t.iniciarTablero();
+		t.imprimirTablero();
+		t.colocarBarcos(Constantes.FRAGATA);
+		t.colocarBarcos(Constantes.FRAGATA);
+		t.colocarBarcos(Constantes.FRAGATA);
+		t.colocarBarcos(Constantes.ACORAZADO);
+		t.colocarBarcos(Constantes.ACORAZADO);
+		t.colocarBarcos(Constantes.ACORAZADO);
+		t.colocarBarcos(Constantes.DESTRUCTOR);
+		t.colocarBarcos(Constantes.DESTRUCTOR);
+		t.imprimirTablero();
 	}
 }
