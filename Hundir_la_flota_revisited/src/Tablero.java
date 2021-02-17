@@ -145,21 +145,21 @@ public class Tablero {
 		
 		while(disparo == false) {
 			System.out.println("\nIntroduzca las coordenadas del disparo.");
-			System.out.print("\nFila: ");
+			System.out.print("\nFila (letra): ");
 			char filaChar = sc.next().charAt(0); // Pedimos una letra (fila)
 			charToInt(filaChar); // Convertimos esa letra a valor numérico y lo guardamos en la variable letraInt. Ej: A = 10 --> letraInt = 10
 			charAfila(letraInt); // Convertimos el valor numérico al correspondiente de la fila y lo guardamos en la variable fila. Ej: 10 = 1 --> fila = 1
 			if(fila < 0 || fila > 15) {
-				System.out.println("La fila introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
+				System.out.println("\nHa introducido una entrada no válida, pulse [Enter] para volver a intentarlo.");
 				pulsaEnter(); // Pide al usuario que presione la tecla enter
 				continue;
 			}
 			
-			System.out.print("Columna: ");
+			System.out.print("Columna (nº): ");
 			int columna = sc.nextInt();
 			columna -= 1;
 			if(columna < 0 || columna > 15) {
-				System.out.println("La columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
+				System.out.println("\nLa columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
 				pulsaEnter();
 				continue;
 			}
@@ -302,6 +302,10 @@ public class Tablero {
 				
 			case 25: // P,p
 				fila = 15;
+				break;
+				
+			default: // Si se introduce una letra con diferente valor numérico al de los casos
+				fila = -1;
 				break;
 		}
 	}
