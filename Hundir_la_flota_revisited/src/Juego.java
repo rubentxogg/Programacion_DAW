@@ -8,7 +8,6 @@ public class Juego {
 	public Juego() {
 		Tablero t = new Tablero();
 		t.iniciarTablero();
-		t.imprimirTablero();
 		t.colocarBarcos(Constantes.FRAGATA);
 		t.colocarBarcos(Constantes.FRAGATA);
 		t.colocarBarcos(Constantes.FRAGATA);
@@ -19,6 +18,5 @@ public class Juego {
 		t.colocarBarcos(Constantes.DESTRUCTOR);
 		t.imprimirTablero();
 		t.disparar();
-		t.imprimirTablero();
 	}
 }

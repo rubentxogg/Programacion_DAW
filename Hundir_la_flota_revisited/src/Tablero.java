@@ -16,7 +16,9 @@ public class Tablero {
 	private int rand;
 	private int pos;
 	private boolean libre;
-	boolean disparo;
+	private int vida;
+	private int letraInt; // Variable que utilizaré para guardar el valor numérico de un char
+	private int fila;
 
 	/**
 	 * Método que se encarga de crear el tablero vacío
@@ -37,7 +39,7 @@ public class Tablero {
 	public void imprimirTablero() {
 	
 		char letter = 'A'; // Valor unicode 65
-		System.out.print("\n\n    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16");
+		System.out.print("\n\n   ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
 		for(char[] x : arrayChar) {
 
 			if(letter == 'A') {
@@ -63,45 +65,41 @@ public class Tablero {
 	public void colocarBarcos(int tipoBarco) {
 		
 		switch(tipoBarco) {
-				case Constantes.FRAGATA:
-					 
-					 arrayChar[r.nextInt(arrayChar.length)][r.nextInt(arrayChar.length)] = 'F';
-					 break;
+			case Constantes.FRAGATA:
+					arrayChar[r.nextInt(arrayChar.length)][r.nextInt(arrayChar.length)] = 'F';
+					break;
 				
-				case Constantes.DESTRUCTOR:
-					
-					 while(libre == false) {
-						 rand = r.nextInt(14)+1;
-						 
-						 if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR ||  arrayChar[rand][rand+1] != Constantes.MAR) {
-							 libre = false;
-						 }
-						 else {
-							 libre = true;
-							 arrayChar[rand][rand] = 'D';
-							 posBarco(1);
-						 }
-					 }
-					 libre = false;
-					 break;
+			case Constantes.DESTRUCTOR:
+				 while(libre == false) {
+						rand = r.nextInt(14)+1; 
+						if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR ||  arrayChar[rand][rand+1] != Constantes.MAR) {
+							libre = false;
+						}
+						else {
+							libre = true;
+							arrayChar[rand][rand] = 'D';
+							posBarco(1);
+						}
+					}
+					libre = false;
+					break;
 					 
-				case Constantes.ACORAZADO:
-					
-					 while(libre == false) {
-						 rand = r.nextInt(12)+2;
+			case Constantes.ACORAZADO:
+					while(libre == false) {
+						rand = r.nextInt(12)+2;
 						 
-						 if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR || arrayChar[rand-2][rand] != Constantes.MAR ||
+						if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR || arrayChar[rand-2][rand] != Constantes.MAR ||
 							arrayChar[rand][rand+1] != Constantes.MAR || arrayChar[rand][rand+2] != Constantes.MAR) {
-							 libre = false;
-						 }
-						 else {
-							 libre = true;
-							 arrayChar[rand][rand] = 'A';
-							 posBarco();
-						 }
-					 }
-					 libre = false;
-					 break;		  
+							libre = false;
+						}
+						else {
+							libre = true;
+							arrayChar[rand][rand] = 'A';
+							posBarco();
+						}
+					}
+					libre = false;
+					break;		  
 		}
 	}
 	
@@ -136,30 +134,176 @@ public class Tablero {
 		}
 	}
 	
+	/**
+	 * Método que pide al usuario unas coordenadas donde quiera efectuar el disparo y dependiendo de lo que haya en la casilla disparada, 
+	 * se mostrará el símbolo y mensaje correspondiente
+	 */
 	public void disparar() {
 		Scanner sc = new Scanner(System.in);
+		boolean disparo = false;
+		char resultado;
 		
-		while(true) {
-			System.out.println("\nIntroduzca las coordenadas del disparo: ");
-			System.out.print("Fila: ");
-			int fila = sc.nextInt()-1;
-			if(fila < 0 || fila > arrayChar.length) {
-				System.out.println("La fila introducida está fuera de rango, pulse [Enter] para volver a intentarlo:");
-				sc.nextLine();
-				sc.nextLine();
+		while(disparo == false) {
+			System.out.println("\nIntroduzca las coordenadas del disparo.");
+			System.out.print("\nFila: ");
+			char filaChar = sc.next().charAt(0); // Pedimos una letra (fila)
+			charToInt(filaChar); // Convertimos esa letra a valor numérico y lo guardamos en la variable letraInt. Ej: A = 10 --> letraInt = 10
+			charAfila(letraInt); // Convertimos el valor numérico al correspondiente de la fila y lo guardamos en la variable fila. Ej: 10 = 1 --> fila = 1
+			if(fila < 0 || fila > 15) {
+				System.out.println("La fila introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
+				pulsaEnter(); // Pide al usuario que presione la tecla enter
 				continue;
 			}
 			
 			System.out.print("Columna: ");
-			int columna = sc.nextInt()-1;
-			if(columna < 0 || columna > arrayChar.length) {
-				System.out.println("La columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo:");
-				sc.nextLine();
-				sc.nextLine();
+			int columna = sc.nextInt();
+			columna -= 1;
+			if(columna < 0 || columna > 15) {
+				System.out.println("La columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
+				pulsaEnter();
 				continue;
 			}
+			else {
+				disparo = true;
+				resultado = arrayChar[fila][columna];
+			}
+			
+			switch(resultado) {
+				case Constantes.MAR:
+					arrayChar[fila][columna] = Constantes.AGUA;
+					imprimirTablero();
+					vida++;
+					if(vida == Constantes.OPORTUNIDADES) {
+						System.out.println("Has perdido, se han agotado las oportunidades.");
+						System.exit(0);
+					}
+					else {
+						System.out.println("\n¡Fallaste!");
+						int oportRestantes = Constantes.OPORTUNIDADES; // Variable para mostrar las oportunidades restantes del jugador
+						System.out.println("\n---------------------------------");
+						System.out.print("| Oportunidades restantes: "+(oportRestantes-vida)+".   |");
+						System.out.println("\n| Pulse [Enter] para continuar. |");
+						System.out.println("---------------------------------");
+						pulsaEnter();
+					}
+					break;
+				
+				case 'A': // Acorazado
+					arrayChar[fila][columna] = Constantes.TOCADO;
+					imprimirTablero();
+					System.out.println("\n---------------------------------------------------");
+					System.out.println("| ¡Blanco! Has acertado en un acorazado. [Enter] |");
+					System.out.println("---------------------------------------------------");
+					pulsaEnter();
+					break;
+				
+				case 'D': // Destructor
+					arrayChar[fila][columna] = Constantes.TOCADO;
+					imprimirTablero();
+					System.out.println("\n---------------------------------------------------");
+					System.out.println("| ¡Blanco! Has acertado en un destructor. [Enter] |");
+					System.out.println("---------------------------------------------------");
+					pulsaEnter();
+					break;
+					
+				case 'F': // Fragata
+					arrayChar[fila][columna] = Constantes.TOCADO;
+					imprimirTablero();
+					System.out.println("\n---------------------------------------------------");
+					System.out.println("| ¡Blanco! Has acertado en una fragata. [Enter]   |");
+					System.out.println("---------------------------------------------------");
+					pulsaEnter();
+					break;
+			}
 		}
-
+	}
+	
+	/**
+	 * Método que pide al usuario que presione la tecla enter para poder continuar
+	 */
+	public void pulsaEnter() {
+		Scanner enter = new Scanner(System.in);
+		enter.nextLine();
+	}
+	
+	/**
+	 * @param letra
+	 * Método que convierte a int el caracter que le pasamos
+	 */
+	public void charToInt(char letra) {
+		letraInt = Character.getNumericValue(letra);
+	}
+	
+	/**
+	 * @param convertirFila
+	 * Método que convierte el valor numérico de un char al número de su fila correspondiente
+	 */
+	public void charAfila(int convertirFila) {
+		switch(letraInt) {
+			case 10: // A,a
+				fila = 0;
+				break;
+				
+			case 11: // B,b
+				fila = 1;
+				break;
+				
+			case 12: // C,c
+				fila = 2;
+				break;
+			
+			case 13: // D,d
+				fila = 3;
+				break;
+			
+			case 14: // E,e
+				fila = 4;
+				break;
+				
+			case 15: // F,f
+				fila = 5;
+				break;
+				
+			case 16: // G,g
+				fila = 6;
+				break;
+				
+			case 17: // H,h
+				fila = 7;
+				break;
+				
+			case 18: // I,i
+				fila = 8;
+				break;
+				
+			case 19: // J,j
+				fila = 9;
+				break;
+				
+			case 20: // K,k
+				fila = 10;
+				break;
+				
+			case 21: // L,l
+				fila = 11;
+				break;
+				
+			case 22: // M,m
+				fila = 12;
+				break;
+				
+			case 23: // N,n
+				fila = 13;
+				break;
+				
+			case 24: // O,o
+				fila = 14;
+				break;
+				
+			case 25: // P,p
+				fila = 15;
+				break;
+		}
 	}
 }	
 
