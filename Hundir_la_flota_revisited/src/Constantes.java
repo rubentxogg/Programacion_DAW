@@ -16,4 +16,7 @@ public class Constantes {
 	// Eventos
 	public static final int OPORTUNIDADES = 10;
 	public static final char MAR = '~';
+	public static final char AGUA = 'o';
+	public static final char TOCADO = 'x';
+	public static final char HUNDIDO = '#';
 }

@@ -18,5 +18,7 @@ public class Juego {
 		t.colocarBarcos(Constantes.DESTRUCTOR);
 		t.colocarBarcos(Constantes.DESTRUCTOR);
 		t.imprimirTablero();
+		t.disparar();
+		t.imprimirTablero();
 	}
 }

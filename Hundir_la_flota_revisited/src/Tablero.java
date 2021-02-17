@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @author Rubentxo
@@ -15,6 +16,7 @@ public class Tablero {
 	private int rand;
 	private int pos;
 	private boolean libre;
+	boolean disparo;
 
 	/**
 	 * Método que se encarga de crear el tablero vacío
@@ -134,6 +136,31 @@ public class Tablero {
 		}
 	}
 	
+	public void disparar() {
+		Scanner sc = new Scanner(System.in);
+		
+		while(true) {
+			System.out.println("\nIntroduzca las coordenadas del disparo: ");
+			System.out.print("Fila: ");
+			int fila = sc.nextInt()-1;
+			if(fila < 0 || fila > arrayChar.length) {
+				System.out.println("La fila introducida está fuera de rango, pulse [Enter] para volver a intentarlo:");
+				sc.nextLine();
+				sc.nextLine();
+				continue;
+			}
+			
+			System.out.print("Columna: ");
+			int columna = sc.nextInt()-1;
+			if(columna < 0 || columna > arrayChar.length) {
+				System.out.println("La columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo:");
+				sc.nextLine();
+				sc.nextLine();
+				continue;
+			}
+		}
+
+	}
 }	
 
 
