@@ -12,6 +12,7 @@ public class Constantes {
 	public static final int ACORAZADO = 3; // Ocupa 3 casillas
 	public static final int DESTRUCTOR = 2; // Ocupa  2 casillas
 	public static final int FRAGATA = 1; // Ocupa 1 casilla
+	public static final int NUM_BLANCOS = Tablero.contBlancos; // Guarda el número de barcos en el juego
 	
 	// Eventos
 	public static final int OPORTUNIDADES = 10;

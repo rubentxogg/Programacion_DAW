@@ -16,7 +16,11 @@ public class Juego {
 		t.colocarBarcos(Constantes.ACORAZADO);
 		t.colocarBarcos(Constantes.DESTRUCTOR);
 		t.colocarBarcos(Constantes.DESTRUCTOR);
-		t.imprimirTablero();
-		t.disparar();
+		
+		while(true) {
+			t.imprimirTablero();
+			t.disparar();
+		}
+		
 	}
 }

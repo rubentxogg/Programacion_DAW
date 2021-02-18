@@ -19,6 +19,11 @@ public class Tablero {
 	private int vida;
 	private int letraInt; // Variable que utilizaré para guardar el valor numérico de un char
 	private int fila;
+	private boolean hundidoDestrucor;
+	private boolean hundidoAcorazado;
+	static int contBlancos = 0; // Cada vez que se crea un barco incrementa su valor en 1
+	private boolean ganar;
+	private int contAcertados;
 
 	/**
 	 * Método que se encarga de crear el tablero vacío
@@ -67,6 +72,7 @@ public class Tablero {
 		switch(tipoBarco) {
 			case Constantes.FRAGATA:
 					arrayChar[r.nextInt(arrayChar.length)][r.nextInt(arrayChar.length)] = 'F';
+					contBlancos++;
 					break;
 				
 			case Constantes.DESTRUCTOR:
@@ -79,6 +85,7 @@ public class Tablero {
 							libre = true;
 							arrayChar[rand][rand] = 'D';
 							posBarco(1);
+							contBlancos+=2;
 						}
 					}
 					libre = false;
@@ -96,6 +103,7 @@ public class Tablero {
 							libre = true;
 							arrayChar[rand][rand] = 'A';
 							posBarco();
+							contBlancos+=3;
 						}
 					}
 					libre = false;
@@ -191,8 +199,11 @@ public class Tablero {
 				case 'A': // Acorazado
 					arrayChar[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
+					contAcertados++;
+					ganar();
+					
 					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Blanco! Has acertado en un acorazado. [Enter] |");
+					System.out.println("| ¡Blanco! Has acertado en un acorazado. [Enter]  |");
 					System.out.println("---------------------------------------------------");
 					pulsaEnter();
 					break;
@@ -200,18 +211,24 @@ public class Tablero {
 				case 'D': // Destructor
 					arrayChar[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
+					contAcertados++;
+					ganar();
+					
 					System.out.println("\n---------------------------------------------------");
 					System.out.println("| ¡Blanco! Has acertado en un destructor. [Enter] |");
 					System.out.println("---------------------------------------------------");
+					
 					pulsaEnter();
 					break;
 					
 				case 'F': // Fragata
 					arrayChar[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
-					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Blanco! Has acertado en una fragata. [Enter]   |");
-					System.out.println("---------------------------------------------------");
+					contAcertados++;
+					ganar();
+					System.out.println("\n----------------------------------------------"); // Al ocupar solamente una casilla siempre que acertemos una fragata la hundiremos
+					System.out.println("| ¡Blanco! Has hundido una fragata. [Enter]  |");
+					System.out.println("----------------------------------------------");
 					pulsaEnter();
 					break;
 			}
@@ -307,6 +324,29 @@ public class Tablero {
 			default: // Si se introduce una letra con diferente valor numérico al de los casos
 				fila = -1;
 				break;
+		}
+	}
+	
+	// TODO
+	/**
+	 * Método que comprueba si se ha hundido un acorazado o un destructor, en caso de que se haya hundido devolverá false
+	 */
+	public void barcoHundido() { 
+		hundidoDestrucor = ((arrayChar[rand][rand] == 'X') && (arrayChar[rand-1][rand] == 'X' || arrayChar[rand][rand+1] == 'X'))?true:false; // Al comenzar el juego siempre será false
+		
+		hundidoAcorazado = ((arrayChar[rand][rand] == 'X') && ((arrayChar[rand-1][rand] == 'X' && arrayChar[rand-2][rand] == 'X') || (arrayChar[rand][rand+1] == 'X' && arrayChar[rand][rand+2] == 'X')))?true:false; // Al comenzar el juego siempre será false
+	}
+	
+	/**
+	 * Método que comprueba que el número de blancos acertados es igual al máximo de blancos del juego,
+	 * si es así, el jugador obtiene la victoria
+	 */
+	public void ganar() {
+		ganar = (Constantes.NUM_BLANCOS == contAcertados)?true:false;
+		
+		if(ganar == true) {
+			System.out.println("ganar");
+			System.exit(0);
 		}
 	}
 }	
