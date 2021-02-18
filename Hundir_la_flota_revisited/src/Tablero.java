@@ -13,8 +13,8 @@ public class Tablero {
 	
 	// Atributos
 	private char[][] arrayChar;
-	private int rand;
-	private int pos;
+	private int randFila;
+	private int randColumna;
 	private boolean libre;
 	private int vida;
 	private int letraInt; // Variable que utilizaré para guardar el valor numérico de un char
@@ -77,13 +77,15 @@ public class Tablero {
 				
 			case Constantes.DESTRUCTOR:
 				 while(libre == false) {
-						rand = r.nextInt(14)+1; 
-						if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR ||  arrayChar[rand][rand+1] != Constantes.MAR) {
+						randFila = r.nextInt(Constantes.FILAS-2)+1;
+						randColumna = r.nextInt(Constantes.FILAS-2)+1; 
+						if(arrayChar[randFila][randColumna] != Constantes.MAR || arrayChar[randFila-1][randColumna] != Constantes.MAR ||  arrayChar[randFila][randColumna+1] != Constantes.MAR || 
+							arrayChar[randFila+1][randColumna] != Constantes.MAR || arrayChar[randFila][randColumna-1] != Constantes.MAR) {
 							libre = false;
 						}
 						else {
 							libre = true;
-							arrayChar[rand][rand] = 'D';
+							arrayChar[randFila][randColumna] = 'D';
 							posBarco(1);
 							contBlancos+=2;
 						}
@@ -93,15 +95,17 @@ public class Tablero {
 					 
 			case Constantes.ACORAZADO:
 					while(libre == false) {
-						rand = r.nextInt(12)+2;
+						randFila = r.nextInt(Constantes.FILAS-4)+2;
+						randColumna = r.nextInt(Constantes.FILAS-4)+2;
 						 
-						if(arrayChar[rand][rand] != Constantes.MAR || arrayChar[rand-1][rand] != Constantes.MAR || arrayChar[rand-2][rand] != Constantes.MAR ||
-							arrayChar[rand][rand+1] != Constantes.MAR || arrayChar[rand][rand+2] != Constantes.MAR) {
+						if(arrayChar[randFila][randColumna] != Constantes.MAR || arrayChar[randFila-1][randColumna] != Constantes.MAR || arrayChar[randFila-2][randColumna] != Constantes.MAR ||
+							arrayChar[randFila][randColumna+1] != Constantes.MAR || arrayChar[randFila][randColumna+2] != Constantes.MAR || arrayChar[randFila][randColumna-1] != Constantes.MAR || 
+							arrayChar[randFila][randColumna-2] != Constantes.MAR || arrayChar[randFila+1][randColumna] != Constantes.MAR || arrayChar[randFila+2][randColumna] != Constantes.MAR) {
 							libre = false;
 						}
 						else {
 							libre = true;
-							arrayChar[rand][rand] = 'A';
+							arrayChar[randFila][randColumna] = 'A';
 							posBarco();
 							contBlancos+=3;
 						}
@@ -116,30 +120,72 @@ public class Tablero {
 	 * Coloca el destructor de forma horizontal o vertical de manera aleatoria
 	 */
 	public void posBarco(int destructor) {
-		pos = r.nextInt(2);
+		int pos = r.nextInt(2); // Variable aleatoria que dicta si el barco se pone horizontal o vertical
+		int verticalHorizontal; // Variable que indica de que manera se coloca el barco tanto verticalmente como horizontalmente
 		
-		if(pos == 1) {
-			arrayChar[rand-1][rand] = 'D'; // Vertical
+		switch(pos) {
+			case 0:
+				verticalHorizontal = r.nextInt(2);
+				
+				if(verticalHorizontal == 1) {
+					arrayChar[randFila-1][randColumna] = 'D'; // Vertical
+				}
+				else {
+					arrayChar[randFila+1][randColumna] = 'D'; // Vertical
+				}
+				break;
+				
+			case 1:
+				verticalHorizontal = r.nextInt(2);
+				
+				if(verticalHorizontal == 1) {
+					arrayChar[randFila][randColumna+1] = 'D'; // Horizontal
+				}
+				else {
+					arrayChar[randFila][randColumna-1] = 'D'; // Horizontal
+				}
+				break;
 		}
-		else {
-			arrayChar[rand][rand+1] = 'D'; // Horizontal
-		}
+		
 	}
 	
 	/**
 	 * Coloca el acorazado de forma horizontal o vertical de manera aleatoria
 	 */
 	public void posBarco() {
-		pos = r.nextInt(2);
+		int pos = r.nextInt(2); // Variable aleatoria que dicta de que manera colocar el barco, si en horizontal o en vertical
+		int verticalHorizontal; // Variable que indica de que manera se coloca el barco tanto verticalmente como horizontalmente
 		
-		if(pos == 1) {
-			arrayChar[rand-1][rand] = 'A'; // Vertical
-			arrayChar[rand-2][rand] = 'A'; 
+		switch(pos) {
+
+			case 0:
+				verticalHorizontal = r.nextInt(2);
+				
+				if(verticalHorizontal == 1) {
+					arrayChar[randFila-1][randColumna] = 'A'; // Vertical
+					arrayChar[randFila-2][randColumna] = 'A'; 
+				}
+				else {
+					arrayChar[randFila+1][randColumna] = 'A'; // Vertical
+					arrayChar[randFila+2][randColumna] = 'A'; 
+				}
+				break;
+			
+			case 1:
+				verticalHorizontal = r.nextInt(2);
+				
+				if(verticalHorizontal == 1) {
+					arrayChar[randFila][randColumna+1] = 'A'; // Horizontal
+					arrayChar[randFila][randColumna+2] = 'A';
+					
+				}
+				else {
+					arrayChar[randFila][randColumna-1] = 'A'; // Horizontal
+					arrayChar[randFila][randColumna-2] = 'A'; 
+				}
+				break;
 		}
-		else {
-			arrayChar[rand][rand+1] = 'A'; // Horizontal
-			arrayChar[rand][rand+2] = 'A'; 
-		}
+		
 	}
 	
 	/**
@@ -152,6 +198,7 @@ public class Tablero {
 		char resultado;
 		
 		while(disparo == false) {
+			imprimirTablero();
 			System.out.println("\nIntroduzca las coordenadas del disparo.");
 			System.out.print("\nFila (letra): ");
 			char filaChar = sc.next().charAt(0); // Pedimos una letra (fila)
@@ -203,7 +250,7 @@ public class Tablero {
 					ganar();
 					
 					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Blanco! Has acertado en un acorazado. [Enter]  |");
+					System.out.println("| ¡Tocado! Has acertado en un acorazado. [Enter]  |");
 					System.out.println("---------------------------------------------------");
 					pulsaEnter();
 					break;
@@ -215,9 +262,8 @@ public class Tablero {
 					ganar();
 					
 					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Blanco! Has acertado en un destructor. [Enter] |");
+					System.out.println("| ¡Tocado! Has acertado en un destructor. [Enter] |");
 					System.out.println("---------------------------------------------------");
-					
 					pulsaEnter();
 					break;
 					
@@ -226,11 +272,18 @@ public class Tablero {
 					imprimirTablero();
 					contAcertados++;
 					ganar();
-					System.out.println("\n----------------------------------------------"); // Al ocupar solamente una casilla siempre que acertemos una fragata la hundiremos
-					System.out.println("| ¡Blanco! Has hundido una fragata. [Enter]  |");
-					System.out.println("----------------------------------------------");
+					System.out.println("\n--------------------------------------------------------"); // Al ocupar solamente una casilla siempre que acertemos una fragata la hundiremos
+					System.out.println("| ¡Tocado y hundido! Has hundido una fragata. [Enter]  |");
+					System.out.println("--------------------------------------------------------");
 					pulsaEnter();
 					break;
+					
+				default: // Disparo repetido
+					System.out.println("\n-------------------------------------------------------------------------------");
+					System.out.println("| [Disparo repetido] Ya has efectuado un disparo en esas coordenadas. [Enter] |");
+					System.out.println("-------------------------------------------------------------------------------");
+					pulsaEnter();
+					continue;
 			}
 		}
 	}
@@ -332,9 +385,9 @@ public class Tablero {
 	 * Método que comprueba si se ha hundido un acorazado o un destructor, en caso de que se haya hundido devolverá false
 	 */
 	public void barcoHundido() { 
-		hundidoDestrucor = ((arrayChar[rand][rand] == 'X') && (arrayChar[rand-1][rand] == 'X' || arrayChar[rand][rand+1] == 'X'))?true:false; // Al comenzar el juego siempre será false
+		hundidoDestrucor = ((arrayChar[randFila][randFila] == 'X') && (arrayChar[randFila-1][randFila] == 'X' || arrayChar[randFila][randFila+1] == 'X'))?true:false; // Al comenzar el juego siempre será false
 		
-		hundidoAcorazado = ((arrayChar[rand][rand] == 'X') && ((arrayChar[rand-1][rand] == 'X' && arrayChar[rand-2][rand] == 'X') || (arrayChar[rand][rand+1] == 'X' && arrayChar[rand][rand+2] == 'X')))?true:false; // Al comenzar el juego siempre será false
+		hundidoAcorazado = ((arrayChar[randFila][randFila] == 'X') && ((arrayChar[randFila-1][randFila] == 'X' && arrayChar[randFila-2][randFila] == 'X') || (arrayChar[randFila][randFila+1] == 'X' && arrayChar[randFila][randFila+2] == 'X')))?true:false; // Al comenzar el juego siempre será false
 	}
 	
 	/**

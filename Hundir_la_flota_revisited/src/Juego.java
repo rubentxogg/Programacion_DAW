@@ -5,6 +5,7 @@
  */
 public class Juego {
 
+	// Método constructor de la clase
 	public Juego() {
 		Tablero t = new Tablero();
 		t.iniciarTablero();
@@ -18,7 +19,6 @@ public class Juego {
 		t.colocarBarcos(Constantes.DESTRUCTOR);
 		
 		while(true) {
-			t.imprimirTablero();
 			t.disparar();
 		}
 		

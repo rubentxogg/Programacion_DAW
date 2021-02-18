@@ -5,6 +5,7 @@
  */
 public class Constantes {
 	
+	// Tablero
 	public static final int FILAS = 16;
 	public static final int COLUMNAS = 16;
 	
@@ -19,5 +20,4 @@ public class Constantes {
 	public static final char MAR = '~';
 	public static final char AGUA = 'O';
 	public static final char TOCADO = 'X';
-	public static final char HUNDIDO = '#';
 }
