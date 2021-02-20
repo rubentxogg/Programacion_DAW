@@ -12,29 +12,45 @@ public class Tablero {
 	Random r = new Random();
 	
 	// Atributos
-	private char[][] arrayChar;
+	private char[][] arrayChar; // Array donde se sitúan los barcos del juego
+	private char[][] arrayJugador; // Array que se mostrará al usuario en el modo normal de juego
 	private int randFila;
 	private int randColumna;
 	private boolean libre;
-	private int vida;
-	private int letraInt; // Variable que utilizaré para guardar el valor numérico de un char
+	private int oportRestantes = Constantes.OPORTUNIDADES; // Variable para mostrar las oportunidades restantes del jugador
+	private int vida; // Para calcular las oportunidades restantes
+	private int charNumericValue; // Variable que utilizaré para guardar el valor numérico de un char
 	private int fila;
-	private boolean hundidoDestrucor;
-	private boolean hundidoAcorazado;
+	private int numDisparos; // Disparos efectuados por el jugador
 	static int contBlancos = 0; // Cada vez que se crea un barco incrementa su valor en 1
 	private boolean ganar;
-	private int contAcertados;
+	private int numBarcos; // Guarda el número de barcos en juego
+	private int contAcertados; // Se incrementa cada vez que el jugador acierta un disparo
 
 	/**
 	 * Método que se encarga de crear el tablero vacío
 	 */
 	public void iniciarTablero() {
-		System.out.println("Bienvenidx al juego\n");
+		System.out.println("\t\t\t<------ Hundir la Flota Revisited ------>"
+				+ "\n\n¡Bienvenido al juego!, el juego consiste en hundir la flota del enemigo."
+				+ "\n"
+				+ "\n-En cada turno efectuas un disparo en las coordenadas introducidas."
+				+ "\n-Si aciertas, se marcará con una X en el tablero, en caso de fallar se marcará con una O."
+				+ "\n-Cada fallo resta una oportunidad."
+				+ "\n-Los barcos se colocarán de manera aleatoria"
+				+ "\n-Tienes "+Constantes.OPORTUNIDADES+" oportunidades, ¡vamos allá! [Enter]");
+		pulsaEnter();
 		
 		arrayChar = new char[Constantes.FILAS][Constantes.COLUMNAS];
+		arrayJugador = new char[Constantes.FILAS][Constantes.COLUMNAS];
+		
 
 		for(char[] x : arrayChar) {
 			Arrays.fill(x, Constantes.MAR); // Lleno las filas con el caracter ~
+		}
+		
+		for(char[] y : arrayJugador) {
+			Arrays.fill(y, Constantes.MAR); // Inicio el array para mostrar al usuario
 		}
 	}
 
@@ -42,9 +58,36 @@ public class Tablero {
 	 * Método que nos imprime el tablero
 	 */
 	public void imprimirTablero() {
+		char letter = 'A';
+		System.out.print("\n\n    ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
+		for(char[] x : arrayJugador) {
+
+			if(letter == 'A') {
+				System.out.println("\n");
+			}
+			else {
+				System.out.println("\n-");
+			}
+
+			System.out.print(letter+" |  ");
+			letter += 1;
+			for(char y : x) {
+				System.out.print(y+"   ");
+			}
+			letter -= 1;
+			System.out.print("| "+letter);
+			letter += 1;
+		}
+		System.out.print("\n\n    ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
+		System.out.println();
+	}
 	
-		char letter = 'A'; // Valor unicode 65
-		System.out.print("\n\n   ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
+	/**
+	 * Método que nos imprime el tablero en modo depuración
+	 */
+	public void imprimirTablero(String depuracion) {
+		char letter = 'A';
+		System.out.print("\n\n    ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
 		for(char[] x : arrayChar) {
 
 			if(letter == 'A') {
@@ -54,12 +97,16 @@ public class Tablero {
 				System.out.println("\n-");
 			}
 
-			System.out.print(letter+" | ");
+			System.out.print(letter+" |  ");
 			letter += 1;
 			for(char y : x) {
-				System.out.print(y+"   ");		
+				System.out.print(y+"   ");
 			}
+			letter -= 1;
+			System.out.print("| "+letter);
+			letter += 1;
 		}
+		System.out.print("\n\n    ·1  ·2  ·3  ·4  ·5  ·6  ·7  ·8  ·9  ·10 ·11 ·12 ·13 ·14 ·15 ·16");
 		System.out.println();
 	}
 	
@@ -68,11 +115,22 @@ public class Tablero {
 	 * Se colocarán de manera aleatoria y en posición horizontal o vertical; también comprueba que estén libres las casillas.
 	 */
 	public void colocarBarcos(int tipoBarco) {
-		
+		numBarcos++;
 		switch(tipoBarco) {
 			case Constantes.FRAGATA:
-					arrayChar[r.nextInt(arrayChar.length)][r.nextInt(arrayChar.length)] = 'F';
-					contBlancos++;
+					while(libre == false) {
+						randFila = r.nextInt(Constantes.FILAS);
+						randColumna = r.nextInt(Constantes.COLUMNAS);
+						if(arrayChar[randFila][randColumna] != Constantes.MAR) {
+							libre = false;
+						}
+						else {
+							libre = true;
+							arrayChar[randFila][randColumna] = 'F';
+							contBlancos++;
+						}
+					}
+					libre = false;
 					break;
 				
 			case Constantes.DESTRUCTOR:
@@ -193,19 +251,23 @@ public class Tablero {
 	 * se mostrará el símbolo y mensaje correspondiente
 	 */
 	public void disparar() {
+		numDisparos++;
 		Scanner sc = new Scanner(System.in);
 		boolean disparo = false;
 		char resultado;
 		
 		while(disparo == false) {
 			imprimirTablero();
-			System.out.println("\nIntroduzca las coordenadas del disparo.");
+			System.out.println("\n---------------------------------");
+			System.out.println("| Oportunidades restantes: "+(oportRestantes-vida)+".   |");
+			System.out.println("---------------------------------");
+			System.out.println("\nIntroduce las coordenadas del disparo.");
 			System.out.print("\nFila (letra): ");
 			char filaChar = sc.next().charAt(0); // Pedimos una letra (fila)
-			charToInt(filaChar); // Convertimos esa letra a valor numérico y lo guardamos en la variable letraInt. Ej: A = 10 --> letraInt = 10
-			charAfila(letraInt); // Convertimos el valor numérico al correspondiente de la fila y lo guardamos en la variable fila. Ej: 10 = 1 --> fila = 1
+			charToNumericValue(filaChar); // Convertimos esa letra a valor numérico y lo guardamos en la variable charNumericValue. Ej: A = 10 --> letraInt = 10
+			numericValueToFila(charNumericValue); // Convertimos el valor numérico al correspondiente de la fila y lo guardamos en la variable fila. Ej: 10 = 1 --> fila = 1
 			if(fila < 0 || fila > 15) {
-				System.out.println("\nHa introducido una entrada no válida, pulse [Enter] para volver a intentarlo.");
+				System.out.println("\nHas introducido una entrada no válida, pulsa [Enter] para volver a intentarlo.");
 				pulsaEnter(); // Pide al usuario que presione la tecla enter
 				continue;
 			}
@@ -214,7 +276,7 @@ public class Tablero {
 			int columna = sc.nextInt();
 			columna -= 1;
 			if(columna < 0 || columna > 15) {
-				System.out.println("\nLa columna introducida está fuera de rango, pulse [Enter] para volver a intentarlo.");
+				System.out.println("\nLa columna introducida está fuera de rango, pulsa [Enter] para volver a intentarlo.");
 				pulsaEnter();
 				continue;
 			}
@@ -226,18 +288,34 @@ public class Tablero {
 			switch(resultado) {
 				case Constantes.MAR:
 					arrayChar[fila][columna] = Constantes.AGUA;
+					arrayJugador[fila][columna] = Constantes.AGUA;
 					imprimirTablero();
 					vida++;
 					if(vida == Constantes.OPORTUNIDADES) {
-						System.out.println("Has perdido, se han agotado las oportunidades.");
+						System.out.println("\nHas perdido, se han agotado las oportunidades.");
+						System.out.println("\n\t    {RESULTADOS}");
+						System.out.println("-----------------------------------");
+						System.out.println("| Número de disparos: "+numDisparos+"           |");
+						System.out.println("| Número de blancos acertados: "+contAcertados+"  |");
+						System.out.println("| Número de barcos hundidos:      |");
+						System.out.println("| Número de barcos restantes: "+numBarcos+"   |");
+						System.out.println("-----------------------------------");
+						System.out.println("\nPulsa [Enter] para descubrir el tablero y finalizar.");
+						pulsaEnter();
+						System.out.println("\n\t    {LEYENDA}");
+						System.out.println("-----------------------------------");
+						System.out.println("| Fragata: F                      |");
+						System.out.println("| Destructor: D                   |");
+						System.out.println("| Acorazado: A                    |");
+						System.out.println("-----------------------------------");
+						imprimirTablero("depuracion");
 						System.exit(0);
 					}
 					else {
-						System.out.println("\n¡Fallaste!");
-						int oportRestantes = Constantes.OPORTUNIDADES; // Variable para mostrar las oportunidades restantes del jugador
+						System.out.println("\n¡Agua!");
 						System.out.println("\n---------------------------------");
-						System.out.print("| Oportunidades restantes: "+(oportRestantes-vida)+".   |");
-						System.out.println("\n| Pulse [Enter] para continuar. |");
+						System.out.print("| Has fallado el disparo.       |");
+						System.out.println("\n| Pulsa [Enter] para continuar. |");
 						System.out.println("---------------------------------");
 						pulsaEnter();
 					}
@@ -245,6 +323,7 @@ public class Tablero {
 				
 				case 'A': // Acorazado
 					arrayChar[fila][columna] = Constantes.TOCADO;
+					arrayJugador[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
 					contAcertados++;
 					ganar();
@@ -257,6 +336,7 @@ public class Tablero {
 				
 				case 'D': // Destructor
 					arrayChar[fila][columna] = Constantes.TOCADO;
+					arrayJugador[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
 					contAcertados++;
 					ganar();
@@ -269,6 +349,7 @@ public class Tablero {
 					
 				case 'F': // Fragata
 					arrayChar[fila][columna] = Constantes.TOCADO;
+					arrayJugador[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
 					contAcertados++;
 					ganar();
@@ -300,16 +381,16 @@ public class Tablero {
 	 * @param letra
 	 * Método que convierte a int el caracter que le pasamos
 	 */
-	public void charToInt(char letra) {
-		letraInt = Character.getNumericValue(letra);
+	public void charToNumericValue(char letra) {
+		charNumericValue = Character.getNumericValue(letra);
 	}
 	
 	/**
 	 * @param convertirFila
 	 * Método que convierte el valor numérico de un char al número de su fila correspondiente
 	 */
-	public void charAfila(int convertirFila) {
-		switch(letraInt) {
+	public void numericValueToFila(int convertirFila) {
+		switch(charNumericValue) {
 			case 10: // A,a
 				fila = 0;
 				break;
@@ -380,16 +461,6 @@ public class Tablero {
 		}
 	}
 	
-	// TODO
-	/**
-	 * Método que comprueba si se ha hundido un acorazado o un destructor, en caso de que se haya hundido devolverá false
-	 */
-	public void barcoHundido() { 
-		hundidoDestrucor = ((arrayChar[randFila][randFila] == 'X') && (arrayChar[randFila-1][randFila] == 'X' || arrayChar[randFila][randFila+1] == 'X'))?true:false; // Al comenzar el juego siempre será false
-		
-		hundidoAcorazado = ((arrayChar[randFila][randFila] == 'X') && ((arrayChar[randFila-1][randFila] == 'X' && arrayChar[randFila-2][randFila] == 'X') || (arrayChar[randFila][randFila+1] == 'X' && arrayChar[randFila][randFila+2] == 'X')))?true:false; // Al comenzar el juego siempre será false
-	}
-	
 	/**
 	 * Método que comprueba que el número de blancos acertados es igual al máximo de blancos del juego,
 	 * si es así, el jugador obtiene la victoria
@@ -398,8 +469,18 @@ public class Tablero {
 		ganar = (Constantes.NUM_BLANCOS == contAcertados)?true:false;
 		
 		if(ganar == true) {
-			System.out.println("ganar");
-			System.exit(0);
+			System.out.println("\n--------------------------------------");
+			System.out.println("| ¡Enhorabuena! has ganado el juego. |");
+			System.out.println("--------------------------------------");
+			System.out.println("\n\t    {RESULTADOS}");
+			System.out.println("----------------------------------");
+			System.out.println("| Número de disparos: "+numDisparos+"          |");
+			System.out.println("| Número de blancos acertados: "+contAcertados+" |");
+			System.out.println("| Número de barcos hundidos: "+"    |");
+			System.out.println("| Oportunidades restantes: "+(oportRestantes-vida)+"    |");
+			System.out.println("----------------------------------");
+			
+			System.exit(0); // Finaliza el programa
 		}
 	}
 }	
