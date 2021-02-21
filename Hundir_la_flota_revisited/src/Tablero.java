@@ -27,6 +27,7 @@ public class Tablero {
 	private int numBarcos; // Guarda el número de barcos en juego
 	private int contAcertados; // Se incrementa cada vez que el jugador acierta un disparo
 	private int contHundidos; // Contador de barcos hundidos
+	static final String depuracion = "depuracion";
 	
 	/**
 	 * Método que se encarga de crear el tablero vacío
@@ -121,16 +122,16 @@ public class Tablero {
 	}
 	
 	/**
-	 * Método que nos imprime el tablero en modo depuración
+	 * Método que nos imprime el tablero en {MODO DEPURACIÓN}
 	 */
 	public void imprimirTablero(String depuracion) {
 		char letter = 'A';
 		int num = 1;
 		boolean numLimite = false;
 
-		System.out.print("    ");
+		System.out.print("\n    ");
 		while(numLimite == false) {
-			if(num < 10) {
+			if(num < 10 && num < arrayChar.length) { // Si el número es menor que 10 y que el límite del array, me imprimirá el número con dos espacios para que el tablero quede proporcionado
 				System.out.print("·"+num+"  ");
 				num++;
 			}
@@ -168,7 +169,7 @@ public class Tablero {
 		System.out.println("\n");
 		System.out.print("    ");
 		while(numLimite == false) {
-			if(num < 10) {
+			if(num < 10 && num < arrayChar.length) {
 				System.out.print("·"+num+"  ");
 				num++;
 			}
@@ -368,10 +369,36 @@ public class Tablero {
 						System.out.println("\nHas perdido, se han agotado las oportunidades.");
 						System.out.println("\n\t    {RESULTADOS}");
 						System.out.println("-----------------------------------");
-						System.out.println("| Número de disparos: "+numDisparos+"          |");
-						System.out.println("| Número de blancos acertados: "+contAcertados+"  |");
-						System.out.println("| Número de barcos hundidos: "+contHundidos+"  |");
-						System.out.println("| Número de barcos restantes: "+numBarcos+"  |");
+						
+						// Si los contadores son menores que 9 se imprimirá solamente un espacio, en caso contrario dos espacios para que la caja mostrada al jugador sea proporcional
+						if(numDisparos < 9) {
+							System.out.println("| Número de disparos: "+numDisparos+"           |");
+						}
+						else {
+							System.out.println("| Número de disparos: "+numDisparos+"          |");
+						}
+						
+						if(contAcertados < 9) {
+							System.out.println("| Número de blancos acertados: "+contAcertados+"  |");
+						}
+						else {
+							System.out.println("| Número de blancos acertados: "+contAcertados+" |");
+						}
+						
+						if(contHundidos < 9) {
+							System.out.println("| Número de barcos hundidos: "+contHundidos+"    |");
+						}
+						else {
+							System.out.println("| Número de barcos hundidos: "+contHundidos+"   |");
+						}
+						
+						if(numBarcos < 9) {
+							System.out.println("| Número de barcos restantes: "+numBarcos+"   |");
+						}
+						else {
+							System.out.println("| Número de barcos restantes: "+numBarcos+"  |");
+						}
+						
 						System.out.println("-----------------------------------");
 						System.out.println("\nPulsa [Enter] para descubrir el tablero y finalizar.");
 						pulsaEnter();
@@ -381,7 +408,7 @@ public class Tablero {
 						System.out.println("| Destructor: D         |");
 						System.out.println("| Acorazado: A          |");
 						System.out.println("-------------------------\n");
-						imprimirTablero("depuracion");
+						imprimirTablero(depuracion); // Descubre la posición de los barcos restantes
 						System.exit(0);
 					}
 					else {
@@ -586,10 +613,35 @@ public class Tablero {
 			System.out.println("--------------------------------------");
 			System.out.println("\n\t    {RESULTADOS}");
 			System.out.println("----------------------------------");
-			System.out.println("| Número de disparos: "+numDisparos+"          |");
-			System.out.println("| Número de blancos acertados: "+contAcertados+" |");
-			System.out.println("| Número de barcos hundidos: "+contHundidos+"    |");
-			System.out.println("| Oportunidades restantes: "+(oportRestantes-vida)+"    |");
+			
+			// Si los contadores son menores que 9 se imprimirá solamente un espacio, en caso contrario dos espacios para que la caja mostrada al jugador sea proporcional
+			if(numDisparos < 9) {
+				System.out.println("| Número de disparos: "+numDisparos+"          |");
+			}
+			else {
+				System.out.println("| Número de disparos: "+numDisparos+"         |");
+			}
+			
+			if(contAcertados < 9) {
+				System.out.println("| Número de blancos acertados: "+contAcertados+" |");
+			}
+			else {
+				System.out.println("| Número de blancos acertados: "+contAcertados+"|");
+			}
+			
+			if(contHundidos < 9){
+				System.out.println("| Número de barcos hundidos: "+contHundidos+"   |");
+			}
+			else {
+				System.out.println("| Número de barcos hundidos: "+contHundidos+"  |");
+			}
+			
+			if((oportRestantes-vida) < 9) {
+				System.out.println("| Oportunidades restantes: "+(oportRestantes-vida)+"     |");
+			}
+			else {
+				System.out.println("| Oportunidades restantes: "+(oportRestantes-vida)+"    |");
+			}
 			System.out.println("----------------------------------");
 			
 			System.exit(0); // Finaliza el programa
