@@ -12,22 +12,33 @@ public class Tablero {
 	Random r = new Random();
 	
 	// Atributos
+	
+	            // Arrays
 	private char[][] arrayChar; // Array donde se sitúan los barcos del juego
 	private char[][] arrayJugador; // Array que se mostrará al usuario en el modo normal de juego
-	private int randFila;
-	private int randColumna;
-	private boolean libre;
-	private int oportRestantes = Constantes.OPORTUNIDADES; // Variable para mostrar las oportunidades restantes del jugador
-	private int vida; // Para calcular las oportunidades restantes
-	private int charNumericValue; // Variable que utilizaré para guardar el valor numérico de un char
-	private int fila;
+	private char[][] arrayDestructor; // Array solamente de destructores para diferenciarlos al hundirlos de los otros barcos
+	private char[][] arrayAcorazado; // Array solamente de acorazados para diferenciarlos al hundirlos de los otros barcos
+	
+				// Contadores
 	private int numDisparos; // Disparos efectuados por el jugador
 	static int contBlancos = 0; // Cada vez que se crea un barco incrementa su valor en 1
-	private boolean ganar;
-	private int numBarcos; // Guarda el número de barcos en juego
 	private int contAcertados; // Se incrementa cada vez que el jugador acierta un disparo
 	private int contHundidos; // Contador de barcos hundidos
-	static final String depuracion = "depuracion";
+	private int numBarcos; // Guarda el número de barcos en juego
+	private int oportRestantes = Constantes.OPORTUNIDADES; // Variable para mostrar las oportunidades restantes del jugador
+	private int vida; // Para calcular las oportunidades restantes
+		
+				// Booleanos
+	private boolean hundido;
+	private boolean libre;
+	private boolean ganar;
+	
+				// Integers
+	private int randFila;
+	private int randColumna;
+	private int charNumericValue; // Variable que utilizaré para guardar el valor numérico de un char
+	private int fila;
+	private int columna;
 	
 	/**
 	 * Método que se encarga de crear el tablero vacío
@@ -46,8 +57,9 @@ public class Tablero {
 		
 		arrayChar = new char[Constantes.FILAS][Constantes.COLUMNAS];
 		arrayJugador = new char[Constantes.FILAS][Constantes.COLUMNAS];
+		arrayDestructor = new char[Constantes.FILAS][Constantes.COLUMNAS];
+		arrayAcorazado = new char[Constantes.FILAS][Constantes.COLUMNAS];
 		
-
 		for(char[] x : arrayChar) {
 			Arrays.fill(x, Constantes.MAR); // Lleno las filas con el caracter ~
 		}
@@ -56,6 +68,13 @@ public class Tablero {
 			Arrays.fill(y, Constantes.MAR); // Inicio el array para mostrar al usuario
 		}
 		
+		for(char[] j : arrayDestructor) {
+			Arrays.fill(j, Constantes.MAR); 
+		}
+		
+		for(char[] k : arrayAcorazado) {
+			Arrays.fill(k, Constantes.MAR); 
+		}
 	}
 
 	/**
@@ -73,7 +92,7 @@ public class Tablero {
 				num++;
 			}
 			else if(num < arrayChar.length+1) {
-				System.out.print("."+num+" ");
+				System.out.print("·"+num+" ");
 				num++;
 			}
 			else {
@@ -111,7 +130,7 @@ public class Tablero {
 				num++;
 			}
 			else if(num < arrayChar.length+1) {
-				System.out.print("."+num+" ");
+				System.out.print("·"+num+" ");
 				num++;
 			}
 			else {
@@ -211,6 +230,7 @@ public class Tablero {
 				 while(libre == false) {
 						randFila = r.nextInt(Constantes.FILAS-2)+1;
 						randColumna = r.nextInt(Constantes.FILAS-2)+1; 
+						
 						if(arrayChar[randFila][randColumna] != Constantes.MAR || arrayChar[randFila-1][randColumna] != Constantes.MAR ||  arrayChar[randFila][randColumna+1] != Constantes.MAR || 
 							arrayChar[randFila+1][randColumna] != Constantes.MAR || arrayChar[randFila][randColumna-1] != Constantes.MAR) {
 							libre = false;
@@ -218,6 +238,7 @@ public class Tablero {
 						else {
 							libre = true;
 							arrayChar[randFila][randColumna] = 'D';
+							arrayDestructor[randFila][randColumna] = 'D';
 							posBarco(1);
 							contBlancos+=2;
 						}
@@ -238,6 +259,7 @@ public class Tablero {
 						else {
 							libre = true;
 							arrayChar[randFila][randColumna] = 'A';
+							arrayAcorazado[randFila][randColumna] = 'A';
 							posBarco();
 							contBlancos+=3;
 						}
@@ -245,6 +267,74 @@ public class Tablero {
 					libre = false;
 					break;		  
 		}
+	}
+	
+	
+	/**
+	 * Método que cuando haya dos casillas con X seguidas entiende que se ha hundido un destructor
+	 * y marca esas casillas con O para evitar confusión si se encontrase otro destructor al lado
+	 */
+	public void comprobarDestructor() {
+		
+		if(arrayDestructor[fila][columna] == 'X' && arrayDestructor[fila-1][columna] == 'X') {
+			arrayDestructor[fila][columna] = 'O';
+			arrayDestructor[fila-1][columna] = 'O';
+			hundido = true;
+		}
+		else if(arrayDestructor[fila][columna] == 'X' && arrayDestructor[fila][columna+1] == 'X') {
+			arrayDestructor[fila][columna] = 'O';
+			arrayDestructor[fila][columna+1] = 'O';
+			hundido = true;
+		}
+		else if(arrayDestructor[fila][columna] == 'X' && arrayDestructor[fila+1][columna] == 'X') {
+			arrayDestructor[fila][columna] = 'O';
+			arrayDestructor[fila+1][columna] = 'O';
+			hundido = true;
+		}
+		else if(arrayDestructor[fila][columna] == 'X' && arrayDestructor[fila][columna-1] == 'X') {
+			arrayDestructor[fila][columna] = 'O';
+			arrayDestructor[fila][columna-1] = 'O';
+			hundido = true;
+		}
+		else {
+			hundido = false;
+		}
+	}
+	
+	/**
+	 * Método que cuando haya tres casillas con X seguidas entiende que se ha hundido un acorazado
+	 * y marca esas casillas con O para evitar confusión si se encontrase otro acorazado al lado
+	 */
+	public void comprobarAcorazado() {
+		
+		if(arrayAcorazado[fila][columna] == 'X' && arrayAcorazado[fila-1][columna] == 'X' && arrayAcorazado[fila-2][columna] == 'X') {
+			arrayAcorazado[fila][columna] = 'O';
+			arrayAcorazado[fila-1][columna] = 'O';
+			arrayAcorazado[fila-2][columna] = 'O';
+			hundido = true;
+		}
+		else if(arrayAcorazado[fila][columna] == 'X' && arrayAcorazado[fila][columna+1] == 'X' && arrayAcorazado[fila][columna+2] == 'X') {
+			arrayAcorazado[fila][columna] = 'O';
+			arrayAcorazado[fila][columna+1] = 'O';
+			arrayAcorazado[fila][columna+2] = 'O';
+			hundido = true;
+		}
+		else if(arrayAcorazado[fila][columna] == 'X' && arrayAcorazado[fila+1][columna] == 'X' && arrayAcorazado[fila+2][columna] == 'X') {
+			arrayAcorazado[fila][columna] = 'O';
+			arrayAcorazado[fila+1][columna] = 'O';
+			arrayAcorazado[fila+2][columna] = 'O';
+			hundido = true;
+		}
+		else if(arrayAcorazado[fila][columna] == 'X' && arrayAcorazado[fila][columna-1] == 'X' && arrayAcorazado[fila][columna-2] == 'X') {
+			arrayAcorazado[fila][columna] = 'O';
+			arrayAcorazado[fila][columna-1] = 'O';
+			arrayAcorazado[fila][columna-2] = 'O';
+			hundido = true;
+		}
+		else {
+			hundido = false;
+		}
+		
 	}
 	
 	/**
@@ -261,9 +351,11 @@ public class Tablero {
 				
 				if(verticalHorizontal == 1) {
 					arrayChar[randFila-1][randColumna] = 'D'; // Vertical
+					arrayDestructor[randFila-1][randColumna] = 'D'; 
 				}
 				else {
 					arrayChar[randFila+1][randColumna] = 'D'; // Vertical
+					arrayDestructor[randFila+1][randColumna] = 'D'; 
 				}
 				break;
 				
@@ -272,9 +364,11 @@ public class Tablero {
 				
 				if(verticalHorizontal == 1) {
 					arrayChar[randFila][randColumna+1] = 'D'; // Horizontal
+					arrayDestructor[randFila][randColumna+1] = 'D'; 
 				}
 				else {
 					arrayChar[randFila][randColumna-1] = 'D'; // Horizontal
+					arrayDestructor[randFila][randColumna-1] = 'D'; 
 				}
 				break;
 		}
@@ -296,10 +390,15 @@ public class Tablero {
 				if(verticalHorizontal == 1) {
 					arrayChar[randFila-1][randColumna] = 'A'; // Vertical
 					arrayChar[randFila-2][randColumna] = 'A'; 
+					arrayAcorazado[randFila-1][randColumna] = 'A';
+					arrayAcorazado[randFila-2][randColumna] = 'A';
 				}
 				else {
 					arrayChar[randFila+1][randColumna] = 'A'; // Vertical
 					arrayChar[randFila+2][randColumna] = 'A'; 
+					arrayAcorazado[randFila+1][randColumna] = 'A';
+					arrayAcorazado[randFila+2][randColumna] = 'A';
+					
 				}
 				break;
 			
@@ -309,11 +408,15 @@ public class Tablero {
 				if(verticalHorizontal == 1) {
 					arrayChar[randFila][randColumna+1] = 'A'; // Horizontal
 					arrayChar[randFila][randColumna+2] = 'A';
+					arrayAcorazado[randFila][randColumna+1] = 'A';
+					arrayAcorazado[randFila][randColumna+2] = 'A';
 					
 				}
 				else {
 					arrayChar[randFila][randColumna-1] = 'A'; // Horizontal
-					arrayChar[randFila][randColumna-2] = 'A'; 
+					arrayChar[randFila][randColumna-2] = 'A';
+					arrayAcorazado[randFila][randColumna-1] = 'A';
+					arrayAcorazado[randFila][randColumna-2] = 'A';
 				}
 				break;
 		}
@@ -347,7 +450,7 @@ public class Tablero {
 			}
 			
 			System.out.print("Columna (nº): ");
-			int columna = sc.nextInt();
+			columna = sc.nextInt();
 			columna -= 1;
 			if(columna < 0 || columna > arrayChar.length-1) {
 				System.out.println("\nLa columna introducida está fuera de rango, pulsa [Enter] para volver a intentarlo.");
@@ -408,7 +511,7 @@ public class Tablero {
 						System.out.println("| Destructor: D         |");
 						System.out.println("| Acorazado: A          |");
 						System.out.println("-------------------------\n");
-						imprimirTablero(depuracion); // Descubre la posición de los barcos restantes
+						imprimirTablero("MODO DEPURACION"); // Descubre la posición de los barcos restantes
 						System.exit(0);
 					}
 					else {
@@ -424,25 +527,46 @@ public class Tablero {
 				case 'A': // Acorazado
 					arrayChar[fila][columna] = Constantes.TOCADO;
 					arrayJugador[fila][columna] = Constantes.TOCADO;
+					arrayAcorazado[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
 					contAcertados++;
 					ganar();
-					
-					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Tocado! Has acertado en un acorazado. [Enter]  |");
-					System.out.println("---------------------------------------------------");
+					comprobarAcorazado(); // Comprueba si el acorazado se ha hundido
+					if(hundido == true) {
+						System.out.println("\n--------------------------------------------------------");
+						System.out.println("| ¡Tocado y hundido! Has hundido un acorazado. [Enter] |");
+						System.out.println("--------------------------------------------------------");
+						contHundidos++;
+					}
+					else {
+						System.out.println("\n---------------------------------------------------");
+						System.out.println("| ¡Tocado! Has acertado en un acorazado. [Enter]  |");
+						System.out.println("---------------------------------------------------");
+					}
+					hundido = false; // Vuelve a su valor por defecto para realizar la próxima comprobación
 					pulsaEnter();
 					break;
 				
 				case 'D': // Destructor
 					arrayChar[fila][columna] = Constantes.TOCADO;
 					arrayJugador[fila][columna] = Constantes.TOCADO;
+					arrayDestructor[fila][columna] = Constantes.TOCADO;
 					imprimirTablero();
 					contAcertados++;
 					ganar();
-					System.out.println("\n---------------------------------------------------");
-					System.out.println("| ¡Tocado! Has acertado en un destructor. [Enter] |");
-					System.out.println("---------------------------------------------------");
+					comprobarDestructor(); // Comprueba si el destructor se ha hundido
+					if(hundido == true) {
+						System.out.println("\n--------------------------------------------------------");
+						System.out.println("| ¡Tocado y hundido! Has hundido un destructor [Enter] |");
+						System.out.println("--------------------------------------------------------");
+						contHundidos++;
+					}
+					else {
+						System.out.println("\n---------------------------------------------------");
+						System.out.println("| ¡Tocado! Has acertado en un destructor. [Enter] |");
+						System.out.println("---------------------------------------------------");
+					}
+					hundido = false; // Vuelve a su valor por defecto para realizar la próxima comprobación
 					pulsaEnter();
 					break;
 					
