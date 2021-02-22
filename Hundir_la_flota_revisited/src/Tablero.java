@@ -156,7 +156,7 @@ public class Tablero {
 				num++;
 			}
 			else if(num < arrayChar.length+1) {
-				System.out.print("."+num+" ");
+				System.out.print("·"+num+" ");
 				num++;
 			}
 			else {
@@ -194,7 +194,7 @@ public class Tablero {
 				num++;
 			}
 			else if(num < arrayChar.length+1) {
-				System.out.print("."+num+" ");
+				System.out.print("·"+num+" ");
 				num++;
 			}
 			else {
