@@ -2,6 +2,9 @@
 /**
  * @author Rubentxo
  *	Contiene las constantes que usaremos en el programa
+ *
+ * -Para cambiar el tamaño del tablero basta con cambiar las constantes FILAS y COLUMNAS
+ * -Para cambiar el número de oportunidades del jugador basta con cambiar la constante OPORTUNIDADES
  */
 public class Constantes {
 	
