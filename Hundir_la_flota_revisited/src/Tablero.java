@@ -538,6 +538,7 @@ public class Tablero {
 						System.out.println("| ¡Tocado y hundido! Has hundido un acorazado. [Enter] |");
 						System.out.println("--------------------------------------------------------");
 						contHundidos++;
+						numBarcos--;
 					}
 					else {
 						System.out.println("\n---------------------------------------------------");
@@ -561,6 +562,7 @@ public class Tablero {
 						System.out.println("| ¡Tocado y hundido! Has hundido un destructor [Enter] |");
 						System.out.println("--------------------------------------------------------");
 						contHundidos++;
+						numBarcos--;
 					}
 					else {
 						System.out.println("\n---------------------------------------------------");
@@ -581,6 +583,7 @@ public class Tablero {
 					System.out.println("| ¡Tocado y hundido! Has hundido una fragata. [Enter]  |");
 					System.out.println("--------------------------------------------------------");
 					contHundidos++;
+					numBarcos--;
 					pulsaEnter();
 					break;
 					
