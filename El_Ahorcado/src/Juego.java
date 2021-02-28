@@ -10,13 +10,13 @@ public class Juego {
 	 */
 	public Juego(){
 		Tablero t = new Tablero();
-		
 		t.iniciarTablero();
-		t.validarPalabra(Tablero.palabra);
 		t.imprimirTablero();
-		t.iniciarTurno();
-		t.validarPalabra(Tablero.eleccion);
-		t.comprobarEleccion();
-		t.imprimirTablero();
+		
+		while(true) {
+			t.iniciarTurno();
+			t.comprobarEleccion();
+			t.imprimirTablero();
+		}
 	}
 }
