@@ -37,7 +37,5 @@ public class Ejemplos {
 		// FlatMap
 		Integer [][] arrayNumerosBi = {{1, 3}, {5, 8}, {10, 4}};
 		
-		Arrays.stream(arrayNumerosBi)
-		.flatMap(x -> Arrays.stream(x))
 	}
 }
