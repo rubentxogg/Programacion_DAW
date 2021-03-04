@@ -13,5 +13,13 @@ public class ImperativoFuncional {
 		new ImperativeWay().convierteAMinusculasFiltra(arrayString, "Sa");
 		
 		// Manera Funcional
+		System.out.println();
+		new FunctionalWay().filtraOrdenaImprime(arrayString, "Sa");
+		
+		System.out.println();
+		new FunctionalWay().calculaCuadradoyMedia(arrayNumeros);
+		
+		System.out.println();
+		new FunctionalWay().convierteAMinusculasFiltra(arrayString, "Ru");
 	}
 }

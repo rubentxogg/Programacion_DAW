@@ -48,7 +48,7 @@ public class ImperativeWay {
 		
 		for(int x : numeros) {
 			
-			x = (int) Math.sqrt(x); // Hallo el cuadrado de cada elemento
+			x *= x; // Hallo el cuadrado de cada elemento
 			media = media + x; // Sumo el cuadrado de cada elemento a media
 		}
 		
