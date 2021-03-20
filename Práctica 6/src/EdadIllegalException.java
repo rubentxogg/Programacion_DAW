@@ -5,4 +5,8 @@ public class EdadIllegalException extends Exception {
 		super(str);
 	}
 	
+	public EdadIllegalException(){
+		super();
+	}
+	
 }
