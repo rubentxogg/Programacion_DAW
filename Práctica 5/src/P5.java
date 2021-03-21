@@ -7,9 +7,9 @@ public class P5 {
 		try {
 			p.setEdad(-5);
 		} catch(IllegalArgumentException iae) {
-			System.out.println("Error esquivado.");
+			iae.printStackTrace();
 		}
 		
-		System.out.println("La edad es: "+p.getEdad());
+		System.out.println("La edad es: "+p.getEdad()); 
 	}
 }
