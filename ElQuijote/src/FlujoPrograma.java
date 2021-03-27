@@ -11,11 +11,9 @@ public class FlujoPrograma {
 		OperacionesFicheros of = new OperacionesFicheros();
 		
 		try {
-			of.leerFichero(Constantes.FICHERO_PALABRAS_A_BUSCAR);
-			of.leerFichero(Constantes.FICHERO_TEXTO_QUIJOTE);
-		} catch (IOException ioe) {
-			System.err.println("No se ha podido leer el archivo, por favor, asegúrese de introducir la ruta correctamente.");
+			of.buscarPalabras(Constantes.FICHERO_PALABRAS_A_BUSCAR, Constantes.FICHERO_TEXTO_QUIJOTE);
+		} catch (IOException e) {
+			System.err.println("No se ha podido leer el fichero, por favor, asegúrese de escribir correctamente la ruta.");
 		}
-		
 	}
 }
