@@ -4,13 +4,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 /**
  * @author Rubentxo
  * Contiene métodos relacionados con ficheros.
  */
 public class OperacionesFicheros {
-	BufferedReader br;
+	Scanner scr;
 	
 	// Contadores
 	private int contQuijote;
@@ -37,10 +38,12 @@ public class OperacionesFicheros {
 		String palabra;
 		String texto;
 		
-		try(BufferedReader br1 = Files.newBufferedReader(p1,StandardCharsets.UTF_8);) {
-			crearBufferReader(p2);
-			while((palabra = br1.readLine()) != null) {
-				while((texto = br.readLine()) != null) {
+		try(Scanner sc = new Scanner(p1,StandardCharsets.UTF_8);) {
+			crearScanner(p2);
+			while(sc.hasNext()) {
+				palabra = sc.next();
+				while(scr.hasNext()) {
+					texto = scr.next();
 					if(texto.toLowerCase().contains(palabra.toLowerCase())){
 						switch(palabra.toLowerCase()) {
 							case "quijote": contQuijote++;
@@ -66,7 +69,7 @@ public class OperacionesFicheros {
 						}
 					}
 				}
-				crearBufferReader(p2);
+				crearScanner(p2);
 			}
 			System.out.println("Quijote: "+contQuijote);
 			System.out.println("Sancho: "+contSancho);
@@ -82,11 +85,11 @@ public class OperacionesFicheros {
 	}
 	
 	/**
-	 * Este método crea un objeto bufferedReader a partir del fichero que se le pasa por parámetro
+	 * Este método crea un objeto Scanner a partir del fichero que se le pasa por parámetro
 	 * @param p Objeto Path
 	 * @throws IOException
 	 */
-	private void crearBufferReader(Path p) throws IOException {
-		br = Files.newBufferedReader(p, StandardCharsets.UTF_8);
+	private void crearScanner(Path p) throws IOException {
+		scr = new Scanner(p, StandardCharsets.UTF_8);
 	}
 }
