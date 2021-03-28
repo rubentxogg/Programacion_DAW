@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -45,28 +43,7 @@ public class OperacionesFicheros {
 				while(scr.hasNext()) {
 					texto = scr.next();
 					if(texto.toLowerCase().contains(palabra.toLowerCase())){
-						switch(palabra.toLowerCase()) {
-							case "quijote": contQuijote++;
-								break;
-							case "sancho": contSancho++;
-								break;
-							case "respondió": contRespondio++;
-								break;
-							case "dios": contDios++;
-								break;
-							case "don": contDon++;
-								break;
-							case "merced": contMerced++;
-								break;
-							case "caballero": contCaballero++;
-								break;
-							case "señora": contSenora++;
-								break;
-							case "verdad": contVerdad++;
-								break;
-							case "mundo": contMundo++;
-								break;
-						}
+						incrementarContador(palabra);
 					}
 				}
 				crearScanner(p2);
@@ -81,6 +58,47 @@ public class OperacionesFicheros {
 			System.out.println("Señora: "+contSenora);
 			System.out.println("Verdad: "+contVerdad);
 			System.out.println("Mundo: "+contMundo);
+		}
+	}
+
+	/**
+	 * Si la palabra se encuentra indicada dentro del condicional, se incrementará su contador específico.
+	 * @param palabra Palabra a comprobar.
+	 */
+	private void incrementarContador(String palabra) {
+		switch(palabra.toLowerCase()) {
+			case "quijote": 
+				contQuijote++;
+				break;
+			case "sancho": 
+				contSancho++;
+				break;
+			case "respondió": 
+				contRespondio++;
+				break;
+			case "dios": 
+				contDios++;
+				break;
+			case "don": 
+				contDon++;
+				break;
+			case "merced": 
+				contMerced++;
+				break;
+			case "caballero":
+				contCaballero++;
+				break;
+			case "señora": 
+				contSenora++;
+				break;
+			case "verdad":
+				contVerdad++;
+				break;
+			case "mundo": 
+				contMundo++;
+				break;
+			default: 
+				System.err.println("No se ha incrementado el contador de la palabra indicada.");
 		}
 	}
 	
