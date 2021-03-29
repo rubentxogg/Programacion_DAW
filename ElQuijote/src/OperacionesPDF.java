@@ -23,12 +23,12 @@ public class OperacionesPDF {
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(destino));
         Document doc = new Document(pdfDoc, PageSize.A4.rotate());
 
-        float[] columnWidths = {1, 5, 5};
+        float[] columnWidths = {1, 5};
         Table table = new Table(UnitValue.createPercentArray(columnWidths));
 
         PdfFont f = PdfFontFactory.createFont(StandardFonts.HELVETICA);
         Cell cell = new Cell(1, 3)
-                .add(new Paragraph("This is a header"))
+                .add(new Paragraph(Constantes.TEXTO_CABECERA_DE_TABLA))
                 .setFont(f)
                 .setFontSize(13)
                 .setFontColor(DeviceGray.WHITE)
@@ -38,19 +38,17 @@ public class OperacionesPDF {
         table.addHeaderCell(cell);
 
         Cell[] header = new Cell[]{
-        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("#")),
-        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("Key")),
-                new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("Value"))
+        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph(Constantes.TEXTO_CABECERA_TABLA_PALABRAS)),
+        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph(Constantes.TEXTO_CABECERA_TABLA_NUMERO_APARICIONES)),
         };
             
         for(Cell c : header) {
-            table.addHeaderCell(c);
+            table.addHeaderCell(c).setTextAlignment(TextAlignment.CENTER);
         }
         
         for (int counter = 0; counter < 100; counter++) {
             table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(String.valueOf(counter + 1))));
             table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("key " + (counter + 1))));
-            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("value " + (counter + 1))));
         }
 
         doc.add(table);
