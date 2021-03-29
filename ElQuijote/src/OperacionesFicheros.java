@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Contiene métodos relacionados con ficheros.
  */
 public class OperacionesFicheros {
-	Scanner scr;
+	Scanner scReader;
 	
 	// Contadores
 	private int contQuijote;
@@ -40,25 +40,41 @@ public class OperacionesFicheros {
 			crearScanner(p2);
 			while(sc.hasNext()) {
 				palabra = sc.next();
-				while(scr.hasNext()) {
-					texto = scr.next();
+				while(scReader.hasNext()) {
+					texto = scReader.next();
 					if(texto.toLowerCase().contains(palabra.toLowerCase())){
 						incrementarContador(palabra);
 					}
 				}
 				crearScanner(p2);
 			}
-			System.out.println("Quijote: "+contQuijote);
-			System.out.println("Sancho: "+contSancho);
-			System.out.println("Respondió: "+contRespondio);
-			System.out.println("Dios: "+contDios);
-			System.out.println("Don: "+contDon);
-			System.out.println("Merced: "+contMerced);
-			System.out.println("Caballero: "+contCaballero);
-			System.out.println("Señora: "+contSenora);
-			System.out.println("Verdad: "+contVerdad);
-			System.out.println("Mundo: "+contMundo);
+			mostrarNumOcurrencias();
 		}
+	}
+	
+	/**
+	 * Este método crea un objeto Scanner a partir del fichero que se le pasa por parámetro
+	 * @param p Objeto Path
+	 * @throws IOException
+	 */
+	private void crearScanner(Path p) throws IOException {
+		scReader = new Scanner(p, StandardCharsets.UTF_8);
+	}
+	
+	/**
+	 * Método que muestra el número de veces que aparece la palabra indicada en el mismo.
+	 */
+	private void mostrarNumOcurrencias() {
+		System.out.println("Quijote: "+contQuijote);
+		System.out.println("Sancho: "+contSancho);
+		System.out.println("respondió: "+contRespondio);
+		System.out.println("dios: "+contDios);
+		System.out.println("don: "+contDon);
+		System.out.println("merced: "+contMerced);
+		System.out.println("caballero: "+contCaballero);
+		System.out.println("señora: "+contSenora);
+		System.out.println("verdad: "+contVerdad);
+		System.out.println("mundo: "+contMundo);
 	}
 
 	/**
@@ -98,16 +114,9 @@ public class OperacionesFicheros {
 				contMundo++;
 				break;
 			default: 
-				System.err.println("No se ha incrementado el contador de la palabra indicada.");
+				System.err.println("No se ha incrementado el contador de la palabra: "+palabra);
+				break;
 		}
 	}
 	
-	/**
-	 * Este método crea un objeto Scanner a partir del fichero que se le pasa por parámetro
-	 * @param p Objeto Path
-	 * @throws IOException
-	 */
-	private void crearScanner(Path p) throws IOException {
-		scr = new Scanner(p, StandardCharsets.UTF_8);
-	}
 }
