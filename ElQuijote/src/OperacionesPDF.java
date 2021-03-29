@@ -1,10 +1,18 @@
 import java.io.IOException;
 
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.DeviceGray;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 /**
  * @author Rubentxo Contiene métodos relacionados con el PDF.
  * Estoy usando los jar de la librería iText7-Core-7.1.3 y jar de slf4j.
@@ -12,23 +20,41 @@ import com.itextpdf.layout.element.Table;
 public class OperacionesPDF {
 
 	public void generarPDF(String destino) throws IOException {
-		PdfWriter writer = new PdfWriter(destino);
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(destino));
+        Document doc = new Document(pdfDoc, PageSize.A4.rotate());
+
+        float[] columnWidths = {1, 5, 5};
+        Table table = new Table(UnitValue.createPercentArray(columnWidths));
+
+        PdfFont f = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+        Cell cell = new Cell(1, 3)
+                .add(new Paragraph("This is a header"))
+                .setFont(f)
+                .setFontSize(13)
+                .setFontColor(DeviceGray.WHITE)
+                .setBackgroundColor(DeviceGray.BLACK)
+                .setTextAlignment(TextAlignment.CENTER);
+
+        table.addHeaderCell(cell);
+
+        Cell[] header = new Cell[]{
+        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("#")),
+        		new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("Key")),
+                new Cell().setBackgroundColor(new DeviceGray(0.75f)).add(new Paragraph("Value"))
+        };
+            
+        for(Cell c : header) {
+            table.addHeaderCell(c);
+        }
         
-        float[] pointColumnWidths = {150F, 150F, 150F};
-        Table table = new Table(pointColumnWidths);
-        
-        table.addHeaderCell(Constantes.TEXTO_CABECERA_DE_TABLA);
-        
-        Cell c1 = new Cell();
-        c1.add(table.addCell("Holsdsfsa"));
-        
-        Cell c2 = new Cell();
-        c2.add(table.addCell("hello"));
-        
-        document.add(table);
-        
-        document.close();
+        for (int counter = 0; counter < 100; counter++) {
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(String.valueOf(counter + 1))));
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("key " + (counter + 1))));
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("value " + (counter + 1))));
+        }
+
+        doc.add(table);
+
+        doc.close();
 	}
 }

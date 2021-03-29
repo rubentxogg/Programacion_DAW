@@ -19,7 +19,7 @@ public class FlujoPrograma {
 		try {
 			new OperacionesPDF().generarPDF(Constantes.INFORME_FINAL);
 		} catch (IOException e) {
-			System.err.println("\n[Ha ocurrido un error inesperado, no se ha podido generar el PDF correctamente.]");
+			System.err.println("\n[Ha ocurrido un error inesperado, no se ha podido generar el PDF.]");
 		}
 	
 	}
