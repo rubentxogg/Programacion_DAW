@@ -27,6 +27,7 @@ public class OperacionesPDF {
         Table table = new Table(UnitValue.createPercentArray(columnWidths));
 
         PdfFont f = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+        
         Cell cell = new Cell(1, 3)
                 .add(new Paragraph(Constantes.TEXTO_CABECERA_DE_TABLA))
                 .setFont(f)
