@@ -9,19 +9,8 @@ import java.util.Scanner;
  * Contiene métodos relacionados con ficheros.
  */
 public class OperacionesFicheros {
-	Scanner scReader;
-	
-	// Contadores
-	private int contQuijote;
-	private int contSancho;
-	private int contRespondio;
-	private int contDios;
-	private int contDon;
-	private int contMerced;
-	private int contCaballero;
-	private int contSenora;
-	private int contVerdad;
-	private int contMundo;
+	private Scanner scReader;
+	private int cont;
 	
 	/**
 	 * Método que busca las palabras de un fichero en otro y cuenta el número de veces que aparecen,
@@ -42,13 +31,13 @@ public class OperacionesFicheros {
 				palabra = sc.next();
 				while(scReader.hasNext()) {
 					texto = scReader.next();
-					if(texto.toLowerCase().contains(palabra.toLowerCase())){
-						incrementarContador(palabra);
-					}
+					incrementarContador(palabra, texto);
 				}
 				crearScanner(p2);
+				mostrarNumOcurrencias(palabra, cont);
+				cont = 0;
 			}
-			mostrarNumOcurrencias();
+			
 		}
 	}
 	
@@ -61,61 +50,25 @@ public class OperacionesFicheros {
 		scReader = new Scanner(p, StandardCharsets.UTF_8);
 	}
 	
+	
 	/**
 	 * Método que muestra el número de veces que aparece la palabra indicada en el mismo.
+	 * @param palabra Palabra a contar.
+	 * @param cont Número de ocurrencias de la palabra.
 	 */
-	private void mostrarNumOcurrencias() {
-		System.out.println("Quijote: "+contQuijote);
-		System.out.println("Sancho: "+contSancho);
-		System.out.println("respondió: "+contRespondio);
-		System.out.println("dios: "+contDios);
-		System.out.println("don: "+contDon);
-		System.out.println("merced: "+contMerced);
-		System.out.println("caballero: "+contCaballero);
-		System.out.println("señora: "+contSenora);
-		System.out.println("verdad: "+contVerdad);
-		System.out.println("mundo: "+contMundo);
+	private void mostrarNumOcurrencias(String palabra, int cont) {
+		System.out.println(palabra+": "+cont);
 	}
 
+	
 	/**
-	 * Si la palabra se encuentra indicada dentro del condicional, se incrementará su contador específico.
-	 * @param palabra Palabra a comprobar.
+	 * Si la palabra proporcionada se encuentra en el texto, se incrementará el contador.
+	 * @param palabra
+	 * @param texto
 	 */
-	private void incrementarContador(String palabra) {
-		switch(palabra.toLowerCase()) {
-			case "quijote": 
-				contQuijote++;
-				break;
-			case "sancho": 
-				contSancho++;
-				break;
-			case "respondió": 
-				contRespondio++;
-				break;
-			case "dios": 
-				contDios++;
-				break;
-			case "don": 
-				contDon++;
-				break;
-			case "merced": 
-				contMerced++;
-				break;
-			case "caballero":
-				contCaballero++;
-				break;
-			case "señora": 
-				contSenora++;
-				break;
-			case "verdad":
-				contVerdad++;
-				break;
-			case "mundo": 
-				contMundo++;
-				break;
-			default: 
-				System.err.println("No se ha incrementado el contador de la palabra: "+palabra);
-				break;
+	private void incrementarContador(String palabra, String texto) {
+		if(texto.toLowerCase().contains(palabra.toLowerCase())){
+			cont++;
 		}
 	}
 	

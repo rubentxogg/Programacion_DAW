@@ -46,13 +46,14 @@ public class OperacionesPDF {
             table.addHeaderCell(c).setTextAlignment(TextAlignment.CENTER);
         }
         
-        for (int counter = 0; counter < 100; counter++) {
-            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(String.valueOf(counter + 1))));
-            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("key " + (counter + 1))));
+        for (int i = 1; i < 100; i++) {
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(String.valueOf(i))));
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("key " + (i))));
         }
 
         doc.add(table);
 
         doc.close();
+        System.out.println("\nPDF generado con éxito.");
 	}
 }
