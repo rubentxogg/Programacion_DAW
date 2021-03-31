@@ -5,7 +5,7 @@ import java.io.IOException;
  * Esta clase marcará el flujo del programa.
  */
 public class FlujoPrograma {
-	
+
 	// Constructor de la clase
 	public FlujoPrograma() {
 		OperacionesFicheros of = new OperacionesFicheros();
@@ -21,6 +21,5 @@ public class FlujoPrograma {
 		} catch (IOException e) {
 			System.err.println("\n[Ha ocurrido un error inesperado, no se ha podido generar el PDF.]");
 		}
-	
 	}
 }

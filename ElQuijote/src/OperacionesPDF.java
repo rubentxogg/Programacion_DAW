@@ -47,8 +47,10 @@ public class OperacionesPDF {
             table.addHeaderCell(c).setTextAlignment(TextAlignment.CENTER);
         }
         
-        for (int i = 1; i < 100; i++) {
-            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(String.valueOf(i))));
+        String[] palabras = new OperacionesFicheros().guardarPalabrasArray(Constantes.FICHERO_PALABRAS_A_BUSCAR);
+        
+        for (int i = 0; i < palabras.length; i++) {
+            table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph(palabras[i])));
             table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER).add(new Paragraph("key " + (i))));
         }
 
