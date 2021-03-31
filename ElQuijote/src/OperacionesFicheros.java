@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Scanner;
  */
 public class OperacionesFicheros {
 	private Scanner scReader;
-	private int cont;
+	private int cont = 0;
 	private int posContador=0;
 	static int[] contadores;
 	
@@ -75,12 +76,12 @@ public class OperacionesFicheros {
 	}
 	
 	/**
-	 * Método que guarda en un array las palabras que encuentra en el fichero.
+	 * Método que guarda en un array las palabras que encuentra en el fichero y lo devuelve.
 	 * @param ficheroPalabras 
 	 * @return Devuelve un array de palabras.
 	 * @throws IOException
 	 */
-	public String[] guardarPalabrasArray(String ficheroPalabras) throws IOException {
+	public String[] guardarPalabras(String ficheroPalabras) throws IOException {
 		Path p = Paths.get(ficheroPalabras);
 		String[] palabras;
 		int i = 0;
@@ -126,4 +127,12 @@ public class OperacionesFicheros {
 		OperacionesFicheros.contadores = new int[numPalabras];
 	}
 	
+	/**
+	 * Convierte un array de tipo Int a un array de tipo String y lo devuelve.
+	 * @param arrayInt
+	 * @return
+	 */
+	public String[] conversorArrayIntToArrayString() {
+		return Arrays.toString(OperacionesFicheros.contadores).split("[\\[\\]]")[1].split(", ");
+	}
 }
