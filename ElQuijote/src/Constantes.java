@@ -5,6 +5,14 @@
  */
 public class Constantes {
 	
+	/**
+	 * Contructor de clase privado, ya que es una clase de utilidad y así evitamos que el
+	 * constructor sin parámetros predeterminado se use en otra parte del código.
+	 */
+	private Constantes() {
+		throw new IllegalStateException("Clase de utilidad");
+	}
+	
 	public static final String INFORME_FINAL = "C:\\Users\\Rubentxo\\Desktop\\InformeQuijote.pdf";
 	public static final String FICHERO_TEXTO_QUIJOTE = "C:\\Users\\Rubentxo\\Desktop\\ElQuijote.txt";
 	public static final String FICHERO_PALABRAS_A_BUSCAR = "C:\\Users\\Rubentxo\\Desktop\\palabras.txt";

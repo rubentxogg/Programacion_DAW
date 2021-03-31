@@ -8,11 +8,10 @@ public class FlujoPrograma {
 
 	// Constructor de la clase
 	public FlujoPrograma() {
-		OperacionesFicheros of = new OperacionesFicheros();
+		System.out.println("Contando número de apariciones...\n");
 		
-		try {
-			System.out.println("Buscando concurrencias...\n");
-			of.buscarPalabras(Constantes.FICHERO_PALABRAS_A_BUSCAR, Constantes.FICHERO_TEXTO_QUIJOTE);
+		try {	
+			new OperacionesFicheros().buscarPalabras(Constantes.FICHERO_PALABRAS_A_BUSCAR, Constantes.FICHERO_TEXTO_QUIJOTE);
 		} catch (IOException e) {
 			System.err.println("No se ha podido leer el fichero, por favor, asegúrese de escribir correctamente la ruta.");
 		}

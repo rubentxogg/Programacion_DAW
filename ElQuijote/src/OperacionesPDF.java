@@ -27,19 +27,19 @@ public class OperacionesPDF {
 	 */
 	public void generarPDF(String destino, String textoCabecera) throws IOException {
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(destino));
-        Document doc = new Document(pdfDoc, PageSize.A4.rotate());
         
-        float[] columnWidths = {1, 5};
-        Table table = new Table(UnitValue.createPercentArray(columnWidths));
+        try(Document doc = new Document(pdfDoc, PageSize.A4.rotate());){
+        	float[] columnWidths = {1, 5};
+            Table table = new Table(UnitValue.createPercentArray(columnWidths));
 
-        PdfFont f = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-        
-        tituloTabla(table, f, textoCabecera);
-        cabeceraPalabrasNumApariciones(table);
-        resultadosPalabrasNumApariciones(table);
-        doc.add(table);
-        doc.close();
-        System.out.println("\nPDF generado con éxito.");
+            PdfFont f = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+            
+            tituloTabla(table, f, textoCabecera);
+            cabeceraPalabrasNumApariciones(table);
+            resultadosPalabrasNumApariciones(table);
+            doc.add(table);
+            System.out.println("\nPDF generado con éxito.");
+        }
 	}
 
 	/**

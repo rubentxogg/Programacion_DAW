@@ -37,7 +37,7 @@ public class OperacionesFicheros {
 					texto = scReader.next();
 					incrementarContador(palabra, texto);
 				}
-				mostrarNumOcurrencias(palabra, cont);
+				mostrarNumApariciones(palabra, cont);
 				guardarContadores(cont);
 				cont = 0;
 			}
@@ -57,9 +57,9 @@ public class OperacionesFicheros {
 	/**
 	 * Método que muestra el número de veces que aparece la palabra indicada en el mismo.
 	 * @param palabra Palabra a contar.
-	 * @param cont Número de ocurrencias de la palabra.
+	 * @param cont Número de apariciones de la palabra.
 	 */
-	private void mostrarNumOcurrencias(String palabra, int cont) {
+	private void mostrarNumApariciones(String palabra, int cont) {
 		System.out.println(palabra+": "+cont);
 	}
 
