@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  * @author Rubentxo
@@ -9,9 +10,19 @@ public class FlujoPrograma {
 	 * Contructor de la clase.
 	 */
 	public FlujoPrograma() {
-		PreguntasUsuario pu = new PreguntasUsuario();
-		System.out.println(pu.nombreDirectorioDiscoDuro());
-		System.out.println(pu.fecha());
-		System.out.println(pu.palabraABuscar());
+		OperacionesArchivos oa = new OperacionesArchivos();
+		datosUsuario pedir = new datosUsuario();
+		
+		oa.seleccionarDirectorio(pedir.rutaDirectorio());
+		oa.seleccionarFecha(pedir.fecha());
+		oa.seleccionarPalabra(pedir.palabraABuscar());
+		
+		try {
+			oa.recorrerDirectorio();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

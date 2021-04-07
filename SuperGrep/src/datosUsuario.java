@@ -7,17 +7,17 @@ import java.util.Scanner;
  * 
  * Esta clase contiene métodos que preguntan al usuario y devuelven valores.
  */
-public class PreguntasUsuario {
+public class datosUsuario {
 	Scanner sc = new Scanner(System.in);
 
 	/**
-	 * Método que pregunta al usuario el nombre del directorio del disco duro y lo
+	 * Método que pregunta al usuario una ruta del directorio en el disco duro y la
 	 * devuelve.
 	 * 
-	 * @return nombre del directorio del disco duro
+	 * @return ruta del directorio del disco duro
 	 */
-	public String nombreDirectorioDiscoDuro() {
-		System.out.print("Introduce el nombre del directorio del disco duro: ");
+	public String rutaDirectorio() {
+		System.out.print("Introduzca la ruta de un directorio: ");
 		return sc.nextLine();
 	}
 
@@ -26,20 +26,21 @@ public class PreguntasUsuario {
 	 * si escribe la fecha con el formato correcto devolverá la fecha y si la escribe con el formato incorrecto 
 	 * se le volverá al usuario.
 	 * 
-	 * @return fecha/vacio
+	 * @return fecha/""
 	 */
 	public String fecha() {
-		System.out.print("Introduce una fecha (dd/mm/aaaa): ");
+		System.out.print("Introduzca una fecha (dd/mm/aaaa): ");
 		String fecha = sc.nextLine();
 		
 		if(fecha.equals("")) {
-			return "vacio";
+			return "";
 		}
 		else {
 			if(comprobarFecha(fecha)) {
 				return fecha;
 			}
 			else {
+				System.err.println("\n[El formato introducido no es válido.]\n");
 				return fecha();
 			}
 		}
@@ -78,7 +79,7 @@ public class PreguntasUsuario {
 	 * @return nombre de la palabra
 	 */
 	public String palabraABuscar() {
-		System.out.print("Introduce la palabra que quieres buscar: ");
+		System.out.print("Introduzca la palabra a buscar: ");
 		return sc.next();
 	}
 }
