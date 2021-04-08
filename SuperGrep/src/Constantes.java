@@ -14,6 +14,7 @@ public class Constantes {
 	}
 	
 	// Constantes
-	public static final String DIRECTORIO_DESTINO = "C:\\Users\\Rubentxo\\Desktop\\CarpetaSuperGrep";
+	public static final String DIRECTORIO_DESTINO = "C:\\Users\\Rubentxo\\Desktop\\SuperGrep"; 
 	public static final String EXTENSION = ".txt";
+	public static final String FORMATO_FECHA = "dd/MM/yyyy";
 }

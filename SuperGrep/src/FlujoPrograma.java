@@ -16,6 +16,7 @@ public class FlujoPrograma {
 		oa.seleccionarDirectorio(pedir.rutaDirectorio());
 		oa.seleccionarFecha(pedir.fecha());
 		oa.seleccionarPalabra(pedir.palabraABuscar());
+		System.out.println();
 		
 		try {
 			oa.recorrerDirectorio();

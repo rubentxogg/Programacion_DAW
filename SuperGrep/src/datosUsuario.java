@@ -62,7 +62,7 @@ public class datosUsuario {
 	 * @return true/false
 	 */
 	private boolean comprobarFecha(String fecha) {
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat(Constantes.FORMATO_FECHA);
 		
 		try {
 			formatoFecha.setLenient(false);
