@@ -55,24 +55,32 @@ public class OperacionesArchivos {
 		this.palabra = palabra;
 	}
 	
-	public void recorrerDirectorio() throws IOException {
+	public void recorrerDirectorio() throws IOException { //TODO
 		Path p = Paths.get(directorio);
-		List<Path> archivos = buscarArchivosPorExtension(p, Constantes.EXTENSION);
+		List<Path> directorios = listarDirectorios(p);
+		List<Path> archivos;
+		int numArchivosAnalizados = 0;
 		
-		for(int i=0; i<archivos.size();i++) {
-			System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
-			try(Scanner sc = new Scanner(archivos.get(i), StandardCharsets.UTF_8);){
-				while(sc.hasNext()) {
-					if(sc.next().toUpperCase().contains(palabra.toUpperCase())) {
-						System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada.*");
-						System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
-						Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
-						break;
+		for(int j=0; j<directorios.size(); j++) {
+			archivos = buscarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION);
+			System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando directorio "+directorios.get(j));
+			for(int i=0; i<archivos.size(); i++) {
+				System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
+				numArchivosAnalizados++;
+				try(Scanner sc = new Scanner(archivos.get(i), StandardCharsets.UTF_8);){
+					while(sc.hasNext()) {
+						if(sc.next().toUpperCase().contains(palabra.toUpperCase())) {
+							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
+							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
+							Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
+							break;
+						}
 					}
 				}
 			}
 		}
-		System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+archivos.size()+".");
+		System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+numArchivosAnalizados+".");
+		System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de directorios analizados: "+directorios.size()+".");
 	}
 	
 	/**
@@ -90,7 +98,8 @@ public class OperacionesArchivos {
 	}
 	
 	/**
-	 * Crea una lista de Path de los archivos encontrados con la extensión que se le pasa por parámetro y la devuelve.
+	 * Crea una lista de Path de los archivos encontrados en la ruta pasada por parámetro con la extensión especificada y la devuelve.
+	 * 
 	 * @param archivo
 	 * @param extension
 	 * @return
@@ -99,7 +108,7 @@ public class OperacionesArchivos {
 	private List<Path> buscarArchivosPorExtension(Path archivo, String extension) throws IOException{
 		List<Path> listaArchivos;
 		
-		try(Stream<Path> st = Files.walk(archivo);) {
+		try(Stream<Path> st = Files.walk(archivo, 1);) {
 			listaArchivos = st
 					.filter(Files::isRegularFile)
 					.filter(p -> p.getFileName().toString().endsWith(extension))
@@ -108,6 +117,24 @@ public class OperacionesArchivos {
 		
 		return listaArchivos;
 	}
+	
+	
+    /**
+     * Crea una lista de Path de los directorios y subdirectorios encontrados a partir de la ruta pasada por parámetro y la devuelve.
+     * 
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    private List<Path> listarDirectorios(Path path) throws IOException {
+        List<Path> listaDirectorios;
+        
+        try (Stream<Path> st = Files.walk(path)) {
+            listaDirectorios = st.filter(Files::isDirectory)
+                    .collect(Collectors.toList());
+        }
+        return listaDirectorios;
+    }
 	
 	/**
 	 * Método que devuelve una fecha con el tipo de formato pasado por parámetro.
