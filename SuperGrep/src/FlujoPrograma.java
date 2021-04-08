@@ -19,6 +19,7 @@ public class FlujoPrograma {
 		System.out.println();
 		
 		try {
+			oa.vaciarDirectorio(Constantes.DIRECTORIO_DESTINO);
 			oa.recorrerDirectorio();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
