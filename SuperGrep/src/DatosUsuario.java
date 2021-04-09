@@ -7,7 +7,7 @@ import java.util.Scanner;
  * 
  * Esta clase contiene métodos que preguntan al usuario y devuelven valores.
  */
-public class datosUsuario {
+public class DatosUsuario {
 	Scanner sc = new Scanner(System.in);
 
 	/**

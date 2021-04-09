@@ -11,7 +11,7 @@ public class FlujoPrograma {
 	 */
 	public FlujoPrograma() {
 		OperacionesArchivos oa = new OperacionesArchivos();
-		datosUsuario pedir = new datosUsuario();
+		DatosUsuario pedir = new DatosUsuario();
 		
 		oa.seleccionarDirectorio(pedir.rutaDirectorio());
 		oa.seleccionarFecha(pedir.fecha());

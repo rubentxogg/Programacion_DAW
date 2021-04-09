@@ -3,6 +3,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +33,7 @@ public class OperacionesArchivos {
 		
 		if(!Files.isDirectory(p)) {
 			System.err.println("\n[El directorio no existe, asegúrese de escribir la ruta correctamente.]\n");
-			seleccionarDirectorio(new datosUsuario().rutaDirectorio());
+			seleccionarDirectorio(new DatosUsuario().rutaDirectorio());
 		}
 		else {
 			directorio = rutaDirectorio;
@@ -69,7 +72,7 @@ public class OperacionesArchivos {
 				numArchivosAnalizados++;
 				try(Scanner sc = new Scanner(archivos.get(i), StandardCharsets.UTF_8);){
 					while(sc.hasNext()) {
-						if(sc.next().toUpperCase().contains(palabra.toUpperCase())) {
+						if(sc.next().equalsIgnoreCase(palabra)) {
 							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
 							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
 							Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
@@ -109,13 +112,23 @@ public class OperacionesArchivos {
 		List<Path> listaArchivos;
 		
 		try(Stream<Path> st = Files.walk(archivo, 1);) {
-			listaArchivos = st
-					.filter(Files::isRegularFile)
-					.filter(p -> p.getFileName().toString().endsWith(extension))
-					.collect(Collectors.toList());
+			
+			if(fecha.isEmpty()) {
+				listaArchivos = st
+						.filter(Files::isRegularFile)
+						.filter(p -> p.getFileName().toString().endsWith(extension))
+						.collect(Collectors.toList());
+				return listaArchivos;
+			}
+			else {
+				listaArchivos = st
+						.filter(Files::isRegularFile)
+						.filter(p -> convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).after(convertirStringDate(fecha, Constantes.FORMATO_FECHA)) || convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).equals(convertirStringDate(fecha, Constantes.FORMATO_FECHA)))
+						.filter(p -> p.getFileName().toString().endsWith(extension))
+						.collect(Collectors.toList());
+				return listaArchivos;
+			}
 		}
-		
-		return listaArchivos;
 	}
 	
 	
@@ -146,5 +159,44 @@ public class OperacionesArchivos {
 		Date date = new Date();
 		SimpleDateFormat fechaActual = new SimpleDateFormat(formatoFecha);
 		return fechaActual.format(date);
+	}
+	
+	/**
+	 * Devuelve la fecha de creación del archivo pasado por parámetro.
+	 * 
+	 * @param path
+	 * @return fecha de creación del archivo
+	 * @throws IOException
+	 */
+	private String fechaCreacionArchivo(Path path) {
+		FileTime creationTime = null;
+		try {
+			creationTime = (FileTime) Files.getAttribute(path, "creationTime");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SimpleDateFormat spf = new SimpleDateFormat(Constantes.FORMATO_FECHA);
+		return spf.format(new Date(creationTime.toMillis()));
+	}
+	
+	/**
+	 * Convierte un String pasado por parametro con la extensión especificada a un objeto Date y lo devuelve.
+	 * 
+	 * @param fecha
+	 * @param formatoFecha
+	 * @return
+	 * @throws ParseException
+	 */
+	private Date convertirStringDate(String fecha, String formatoFecha) {
+		SimpleDateFormat format = new SimpleDateFormat(formatoFecha);
+		Date fechaDate = null;
+		try {
+			fechaDate = format.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fechaDate;
 	}
 }
