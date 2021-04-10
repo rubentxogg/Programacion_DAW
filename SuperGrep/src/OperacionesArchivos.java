@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,32 +59,43 @@ public class OperacionesArchivos {
 		this.palabra = palabra;
 	}
 	
-	public void recorrerDirectorio() throws IOException { //TODO
+	public void recorrerDirectorio(String destinoLog) throws IOException { //TODO
 		Path p = Paths.get(directorio);
 		List<Path> directorios = listarDirectorios(p);
 		List<Path> archivos;
 		int numArchivosAnalizados = 0;
+		int numArchivoRepetido = 2;
 		
 		for(int j=0; j<directorios.size(); j++) {
 			archivos = buscarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION);
-			System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando directorio "+directorios.get(j));
+			anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando directorio "+directorios.get(j));
 			for(int i=0; i<archivos.size(); i++) {
-				System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
+				anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
 				numArchivosAnalizados++;
 				try(Scanner sc = new Scanner(archivos.get(i), StandardCharsets.UTF_8);){
 					while(sc.hasNext()) {
 						if(sc.next().equalsIgnoreCase(palabra)) {
-							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
-							System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
-							Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
+							System.out.println("Palabra encontrada en el fichero: "+archivos.get(i));
+							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
+							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
+							
+							Path pathDestino = Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString());
+							
+							if(!Files.exists(pathDestino)) {
+								Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
+							}
+							else {
+								Files.copy(archivos.get(i), Paths.get(borrarExtensionArchivo(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString())+" ("+numArchivoRepetido+")"+Constantes.EXTENSION));
+								numArchivoRepetido++;
+							}
 							break;
 						}
 					}
 				}
 			}
 		}
-		System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+numArchivosAnalizados+".");
-		System.out.println(fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de directorios analizados: "+directorios.size()+".");
+		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+numArchivosAnalizados+".");
+		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de directorios analizados: "+directorios.size()+".");
 	}
 	
 	/**
@@ -201,22 +213,40 @@ public class OperacionesArchivos {
 		return fechaDate;
 	}
 	
-	private boolean comprobarFicheroRepetido() { // TODO
-		return false;
-		
+	private boolean comprobarFicheroRepetido(Path fichero) {
+		return false; // TODO
 	}
 	
-	public void crearLog(String destino) throws IOException { // TODO
+	/**
+	 * Añade un fichero.log en la ruta indicada y añade el texto pasado por parámetro o en caso de que ya esté creado añade directamente el texto.
+	 * 
+	 * @param destino
+	 * @param añadirTexto
+	 * @throws IOException
+	 */
+	private void anadirLog(String destino, String añadirTexto) throws IOException { // TODO
 		Path p = Paths.get(destino);
 		
 		if (!Files.exists(p)) {
 			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
-				writer.write("Hoooooola.");
+				writer.write(añadirTexto);
 			}
 		} else {
-			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
-				writer.append("Texto añadido");
+			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
+				writer.write("\n"+añadirTexto);
 			}
 		}
+	}
+	
+	/**
+	 * Elimina la extensión del archivo que se le pasa por parámetro
+	 * 
+	 * @param archivo
+	 * @param eliminarExtension
+	 * @return
+	 */
+	public String borrarExtensionArchivo(String archivo) {
+		String patronExtension = "(?<!^)[.]" + (true ? ".*" : "[^.]*$");
+	    return archivo.replaceAll(patronExtension, "");
 	}
 }

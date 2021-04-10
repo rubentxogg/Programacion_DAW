@@ -20,12 +20,12 @@ public class FlujoPrograma {
 		
 		try {
 			oa.vaciarDirectorio(Constantes.DIRECTORIO_DESTINO);
-			oa.recorrerDirectorio();
-			oa.crearLog(Constantes.LOG);
+			oa.recorrerDirectorio(Constantes.LOG);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		pedir.cerrarScanner(pedir.sc);
 	}
 }
