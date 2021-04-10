@@ -36,7 +36,7 @@ public class DatosUsuario {
 			return "";
 		}
 		else {
-			if(comprobarFecha(fecha)) {
+			if(comprobarFormatoFecha(fecha)) {
 				return fecha;
 			}
 			else {
@@ -61,7 +61,7 @@ public class DatosUsuario {
 	 * @param fecha
 	 * @return true/false
 	 */
-	private boolean comprobarFecha(String fecha) {
+	private boolean comprobarFormatoFecha(String fecha) {
 		SimpleDateFormat formatoFecha = new SimpleDateFormat(Constantes.FORMATO_FECHA);
 		
 		try {

@@ -1,9 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -123,7 +123,8 @@ public class OperacionesArchivos {
 			else {
 				listaArchivos = st
 						.filter(Files::isRegularFile)
-						.filter(p -> convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).after(convertirStringDate(fecha, Constantes.FORMATO_FECHA)) || convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).equals(convertirStringDate(fecha, Constantes.FORMATO_FECHA)))
+						.filter(p -> convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).after(convertirStringDate(fecha, Constantes.FORMATO_FECHA)) ||
+									convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).equals(convertirStringDate(fecha, Constantes.FORMATO_FECHA)))
 						.filter(p -> p.getFileName().toString().endsWith(extension))
 						.collect(Collectors.toList());
 				return listaArchivos;
@@ -155,7 +156,7 @@ public class OperacionesArchivos {
 	 * @param formatoFecha
 	 * @return
 	 */
-	public String fechaActual(String formatoFecha) {
+	public static String fechaActual(String formatoFecha) {
 		Date date = new Date();
 		SimpleDateFormat fechaActual = new SimpleDateFormat(formatoFecha);
 		return fechaActual.format(date);
@@ -198,5 +199,24 @@ public class OperacionesArchivos {
 			e.printStackTrace();
 		}
 		return fechaDate;
+	}
+	
+	private boolean comprobarFicheroRepetido() { // TODO
+		return false;
+		
+	}
+	
+	public void crearLog(String destino) throws IOException { // TODO
+		Path p = Paths.get(destino);
+		
+		if (!Files.exists(p)) {
+			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
+				writer.write("Hoooooola.");
+			}
+		} else {
+			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
+				writer.append("Texto añadido");
+			}
+		}
 	}
 }

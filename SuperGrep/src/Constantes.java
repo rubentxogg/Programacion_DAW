@@ -23,5 +23,8 @@ public class Constantes {
 	// Formatos de fecha
 	public static final String FORMATO_FECHA = "dd/MM/yyyy";
 	public static final String FORMATO_FECHA_Y_HORA_ACTUAL = "dd/MM/yyyy HH:mm:ss";
-	public static final String FORMATO_FECHA_LOG = "ddMMyyyy";
+	public static final String FORMATO_FECHA_LOG = "ddMMYY";
+	
+	// Log
+	public static final String LOG = "C:\\Users\\Rubentxo\\Desktop\\superGrep_"+OperacionesArchivos.fechaActual(FORMATO_FECHA_LOG)+".log";
 }
