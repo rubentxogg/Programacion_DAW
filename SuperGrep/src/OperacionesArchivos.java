@@ -242,11 +242,10 @@ public class OperacionesArchivos {
 	 * Elimina la extensión del archivo que se le pasa por parámetro
 	 * 
 	 * @param archivo
-	 * @param eliminarExtension
 	 * @return
 	 */
 	public String borrarExtensionArchivo(String archivo) {
-		String patronExtension = "(?<!^)[.]" + (true ? ".*" : "[^.]*$");
+		String patronExtension = "(?<!^)[.].*";
 	    return archivo.replaceAll(patronExtension, "");
 	}
 }
