@@ -26,5 +26,5 @@ public class Constantes {
 	public static final String FORMATO_FECHA_LOG = "ddMMYY";
 	
 	// Log
-	public static final String LOG = "C:\\Users\\Rubentxo\\Desktop\\superGrep_"+OperacionesArchivos.fechaActual(FORMATO_FECHA_LOG)+".log";
+	public static final String DESTINO_LOG = "C:\\Users\\Rubentxo\\Desktop\\superGrep_"+OperacionesArchivos.fechaActual(FORMATO_FECHA_LOG)+".log";
 }

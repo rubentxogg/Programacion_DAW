@@ -23,7 +23,9 @@ public class OperacionesArchivos {
 	private String directorio;
 	private String fecha;
 	private String palabra;
+	private String destinoLog;
 	private int contArchivoRepetido = 1;
+	
 	
 	/**
 	 * Comprueba que la ruta proporcionada sea un directorio y la asigna a la variable global String directorio.
@@ -60,57 +62,114 @@ public class OperacionesArchivos {
 		this.palabra = palabra;
 	}
 	
-	public void recorrerDirectorio(String destinoLog) throws IOException { //TODO
+	/**
+	 * Analiza el directorio recursivamente en busca de ficheros que contengan la palabra deseada y copia esos ficheros en la carpeta de
+	 * destino de SuperGrep.
+	 * 
+	 * @throws IOException
+	 */
+	public void analizarDirectorio() throws IOException {
 		Path p = Paths.get(directorio);
 		List<Path> directorios = listarDirectorios(p);
 		List<Path> archivos;
 		int numArchivosAnalizados = 0;
-		
-		for(int j=0; j<directorios.size(); j++) {
-			if(fecha.isEmpty()) {
-				archivos = listarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION_TXT);
-			}
-			else {
-				archivos = listarArchivosPorExtensionFecha(directorios.get(j), Constantes.EXTENSION_TXT, fecha);
-			}
-			
+
+		for (int j = 0; j < directorios.size(); j++) {
+			archivos = seleccionListaArchivosSegunContenidoFecha(directorios, j);
 			anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando directorio "+directorios.get(j));
-			for(int i=0; i<archivos.size(); i++) {
+			
+			for (int i = 0; i < archivos.size(); i++) {
 				anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
 				numArchivosAnalizados++;
-				try(Scanner sc = new Scanner(archivos.get(i), StandardCharsets.UTF_8);){
-					while(sc.hasNext()) {
-						if(sc.next().equalsIgnoreCase(palabra)) {
-							System.out.println("Palabra encontrada en el fichero: "+archivos.get(i));
-							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
-							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
-							
-							if(!comprobarArchivoRepetido(archivos, i)) {
-								Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
-							}
-							else {
-								Files.copy(archivos.get(i), Paths.get(borrarExtensionArchivo(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString())+" ("+contArchivoRepetido+")"+Constantes.EXTENSION_TXT));
-								contArchivoRepetido++;
-							}
-							break;
-						}
-					}
+				
+				if (buscarPalabra(archivos.get(i), palabra)) {
+					anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra +'"'+" encontrada. [!]");
+					anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
+					seleccionTipoCopiaArchivos(archivos, i);
+					break;
 				}
 			}
 		}
 		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+numArchivosAnalizados+".");
 		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de directorios analizados: "+directorios.size()+".");
 	}
+	
+	/**
+	 * Devuelve true si ha encontrado la palabra en el archivo, en caso contrario, devuelve false.
+	 * 
+	 * @param archivo
+	 * @param palabra
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean buscarPalabra(Path archivo, String palabra) throws IOException {
+		try(Scanner sc = new Scanner(archivo);){
+			while(sc.hasNext()) {
+				if(sc.next().equalsIgnoreCase(palabra)) {
+					System.out.println("Palabra encontrada en el fichero: "+archivo);
+					return true;
+				}
+			}
+			return false;
+		}	
+	}
 
 	/**
-	 * Devuelve true si el archivo path de la lista de path pasada por parámetro ya existe y false en caso contrario.
+	 * Si el nombre del archivo a copiar es igual que el nombre del archivo que hay en el destino, se copiará añadiendo un número al nombre
+	 * para evitar conflictos.
+	 * 
+	 * @param archivos
+	 * @param i
+	 * @throws IOException
+	 */
+	private void seleccionTipoCopiaArchivos(List<Path> archivos, int i) throws IOException {
+		if(!comprobarNombreArchivoRepetido(archivos, i)) {
+			Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
+		}
+		else {
+			Files.copy(archivos.get(i), Paths.get(borrarExtensionArchivo(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString())+" ("+contArchivoRepetido+")"+Constantes.EXTENSION_TXT));
+			contArchivoRepetido++;
+		}
+	}
+
+	/**
+	 * Devuelve una lista u otra dependiendo si la fecha está en blanco o no;
+	 * 
+	 * @param directorios
+	 * @param j
+	 * @return
+	 * @throws IOException
+	 */
+	private List<Path> seleccionListaArchivosSegunContenidoFecha(List<Path> directorios, int j) throws IOException {
+		List<Path> archivos;
+		
+		if(fecha.isEmpty()) {
+			archivos = listarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION_TXT);
+		}
+		else {
+			archivos = listarArchivosPorExtensionFecha(directorios.get(j), Constantes.EXTENSION_TXT, fecha);
+		}
+		return archivos;
+	}
+	
+	/**
+	 * Asigna el destino donde se creará el Log a la variable global destinoLog.
+	 * 
+	 * @param destinoLog
+	 */
+	public void seleccionarDestinoLog(String destinoLog) {
+		this.destinoLog = destinoLog;
+	}
+
+	/**
+	 * Devuelve true si el nombre del archivo path de la lista de path pasada por parámetro ya existe en el directorio destino y false en caso contrario.
 	 * 
 	 * @param archivos
 	 * @param i
 	 * @return
 	 * @throws IOException
 	 */
-	private boolean comprobarArchivoRepetido(List<Path> archivos, int i) throws IOException {
+	private boolean comprobarNombreArchivoRepetido(List<Path> archivos, int i) {
 		Path pathDestino = Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString());
 		return(Files.exists(pathDestino));
 	}

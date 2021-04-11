@@ -20,7 +20,8 @@ public class FlujoPrograma {
 		
 		try {
 			oa.vaciarDirectorio(Constantes.DIRECTORIO_DESTINO);
-			oa.recorrerDirectorio(Constantes.LOG);
+			oa.seleccionarDestinoLog(Constantes.DESTINO_LOG);
+			oa.analizarDirectorio();
 		} catch (IOException e) {
 			System.err.println("[Error, el directorio destino no existe, debe crear o seleccionar otro.]");
 		}
