@@ -1,18 +1,18 @@
 import java.io.IOException;
 
 /**
- * @author Rubentxo
  * Clase que marca el flujo del programa.
+ * 
+ * @author Rubentxo
  */
 public class FlujoPrograma {
+	OperacionesArchivos oa = new OperacionesArchivos();
+	DatosUsuario pedir = new DatosUsuario();
 	
 	/**
 	 * Contructor de la clase.
 	 */
 	public FlujoPrograma() {
-		OperacionesArchivos oa = new OperacionesArchivos();
-		DatosUsuario pedir = new DatosUsuario();
-		
 		oa.seleccionarDirectorio(pedir.rutaDirectorio());
 		oa.seleccionarFecha(pedir.fecha());
 		oa.seleccionarPalabra(pedir.palabraABuscar());
@@ -22,8 +22,7 @@ public class FlujoPrograma {
 			oa.vaciarDirectorio(Constantes.DIRECTORIO_DESTINO);
 			oa.recorrerDirectorio(Constantes.LOG);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("[Error, el directorio destino no existe, debe crear o seleccionar otro.]");
 		}
 		
 		pedir.cerrarScanner(pedir.sc);

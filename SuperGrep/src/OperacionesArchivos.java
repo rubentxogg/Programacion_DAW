@@ -23,6 +23,7 @@ public class OperacionesArchivos {
 	private String directorio;
 	private String fecha;
 	private String palabra;
+	private int contArchivoRepetido = 1;
 	
 	/**
 	 * Comprueba que la ruta proporcionada sea un directorio y la asigna a la variable global String directorio.
@@ -64,10 +65,15 @@ public class OperacionesArchivos {
 		List<Path> directorios = listarDirectorios(p);
 		List<Path> archivos;
 		int numArchivosAnalizados = 0;
-		int numArchivoRepetido = 2;
 		
 		for(int j=0; j<directorios.size(); j++) {
-			archivos = buscarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION);
+			if(fecha.isEmpty()) {
+				archivos = listarArchivosPorExtension(directorios.get(j), Constantes.EXTENSION_TXT);
+			}
+			else {
+				archivos = listarArchivosPorExtensionFecha(directorios.get(j), Constantes.EXTENSION_TXT, fecha);
+			}
+			
 			anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando directorio "+directorios.get(j));
 			for(int i=0; i<archivos.size(); i++) {
 				anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Analizando archivo: "+archivos.get(i)+"...");
@@ -79,14 +85,12 @@ public class OperacionesArchivos {
 							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra+'"'+" encontrada. [!]");
 							anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
 							
-							Path pathDestino = Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString());
-							
-							if(!Files.exists(pathDestino)) {
+							if(!comprobarArchivoRepetido(archivos, i)) {
 								Files.copy(archivos.get(i), Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString()));
 							}
 							else {
-								Files.copy(archivos.get(i), Paths.get(borrarExtensionArchivo(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString())+" ("+numArchivoRepetido+")"+Constantes.EXTENSION));
-								numArchivoRepetido++;
+								Files.copy(archivos.get(i), Paths.get(borrarExtensionArchivo(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString())+" ("+contArchivoRepetido+")"+Constantes.EXTENSION_TXT));
+								contArchivoRepetido++;
 							}
 							break;
 						}
@@ -97,6 +101,19 @@ public class OperacionesArchivos {
 		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de archivos analizados: "+numArchivosAnalizados+".");
 		anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Número total de directorios analizados: "+directorios.size()+".");
 	}
+
+	/**
+	 * Devuelve true si el archivo path de la lista de path pasada por parámetro ya existe y false en caso contrario.
+	 * 
+	 * @param archivos
+	 * @param i
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean comprobarArchivoRepetido(List<Path> archivos, int i) throws IOException {
+		Path pathDestino = Paths.get(Constantes.DIRECTORIO_DESTINO+"\\"+archivos.get(i).getFileName().toString());
+		return(Files.exists(pathDestino));
+	}
 	
 	/**
 	 * Borra todos los archivos que se encuentran en el directorio pasado por parámetro.
@@ -105,7 +122,7 @@ public class OperacionesArchivos {
 	 */
 	public void vaciarDirectorio(String directorio) throws IOException {
 		Path p = Paths.get(directorio);
-		List<Path> archivos = buscarArchivosPorExtension(p, Constantes.CUALQUIER_EXTENSION);
+		List<Path> archivos = listarArchivosPorExtension(p, Constantes.CUALQUIER_EXTENSION);
 		
 		for(int i=0; i<archivos.size();i++) {
 			Files.delete(Paths.get(directorio+"\\"+archivos.get(i).getFileName().toString()));
@@ -113,40 +130,48 @@ public class OperacionesArchivos {
 	}
 	
 	/**
-	 * Crea una lista de Path de los archivos encontrados en la ruta pasada por parámetro con la extensión especificada y la devuelve.
+	 * Devuelve una lista de Path de los archivos encontrados en la ruta pasada por parámetro con la extensión especificada.
 	 * 
 	 * @param archivo
 	 * @param extension
 	 * @return
 	 * @throws IOException
 	 */
-	private List<Path> buscarArchivosPorExtension(Path archivo, String extension) throws IOException{
+	private List<Path> listarArchivosPorExtension(Path archivo, String extension) throws IOException {
+		List<Path> listaArchivos;
+
+		try (Stream<Path> st = Files.walk(archivo, 1);) {
+			listaArchivos = st.filter(Files::isRegularFile)
+					.filter(p -> p.getFileName().toString().endsWith(extension))
+					.collect(Collectors.toList());
+			return listaArchivos;
+		}
+	}
+
+	/**
+	 * Devuelve una lista de Path de los archivos encontrados en la ruta pasada por parámetro a partir de la fecha y extensión especificadas.
+	 * 
+	 * @param archivo
+	 * @param extension
+	 * @param fecha
+	 * @return
+	 * @throws IOException
+	 */
+	private List<Path> listarArchivosPorExtensionFecha(Path archivo, String extension, String fecha) throws IOException {
 		List<Path> listaArchivos;
 		
-		try(Stream<Path> st = Files.walk(archivo, 1);) {
-			
-			if(fecha.isEmpty()) {
-				listaArchivos = st
-						.filter(Files::isRegularFile)
-						.filter(p -> p.getFileName().toString().endsWith(extension))
-						.collect(Collectors.toList());
-				return listaArchivos;
-			}
-			else {
-				listaArchivos = st
-						.filter(Files::isRegularFile)
-						.filter(p -> convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).after(convertirStringDate(fecha, Constantes.FORMATO_FECHA)) ||
-									convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).equals(convertirStringDate(fecha, Constantes.FORMATO_FECHA)))
-						.filter(p -> p.getFileName().toString().endsWith(extension))
-						.collect(Collectors.toList());
-				return listaArchivos;
-			}
+		try (Stream<Path> st = Files.walk(archivo, 1);) {
+			listaArchivos = st.filter(Files::isRegularFile)
+					.filter(p -> convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).after(convertirStringDate(fecha, Constantes.FORMATO_FECHA)) ||
+								convertirStringDate(fechaCreacionArchivo(p), Constantes.FORMATO_FECHA).equals(convertirStringDate(fecha, Constantes.FORMATO_FECHA)))
+					.filter(p -> p.getFileName().toString().endsWith(extension)).collect(Collectors.toList());
+			return listaArchivos;
 		}
 	}
 	
 	
     /**
-     * Crea una lista de Path de los directorios y subdirectorios encontrados a partir de la ruta pasada por parámetro y la devuelve.
+     * Devuelve una lista de Path de los directorios y subdirectorios encontrados a partir de la ruta pasada por parámetro.
      * 
      * @param path
      * @return
@@ -186,8 +211,7 @@ public class OperacionesArchivos {
 		try {
 			creationTime = (FileTime) Files.getAttribute(path, "creationTime");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("[Ha ocurrido un error inesperado, no se ha podido extraer la fecha de creación del archivo especificado.]");
 		}
 		SimpleDateFormat spf = new SimpleDateFormat(Constantes.FORMATO_FECHA);
 		return spf.format(new Date(creationTime.toMillis()));
@@ -207,33 +231,28 @@ public class OperacionesArchivos {
 		try {
 			fechaDate = format.parse(fecha);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("[No se ha podido convertir a Date, compruebe que el formato de la fecha introducido es válido.]");
 		}
 		return fechaDate;
-	}
-	
-	private boolean comprobarFicheroRepetido(Path fichero) {
-		return false; // TODO
 	}
 	
 	/**
 	 * Añade un fichero.log en la ruta indicada y añade el texto pasado por parámetro o en caso de que ya esté creado añade directamente el texto.
 	 * 
 	 * @param destino
-	 * @param añadirTexto
+	 * @param anadirTexto
 	 * @throws IOException
 	 */
-	private void anadirLog(String destino, String añadirTexto) throws IOException { // TODO
+	private void anadirLog(String destino, String anadirTexto) throws IOException {
 		Path p = Paths.get(destino);
 		
 		if (!Files.exists(p)) {
 			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
-				writer.write(añadirTexto);
+				writer.write(anadirTexto);
 			}
 		} else {
 			try (BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
-				writer.write("\n"+añadirTexto);
+				writer.write("\n"+anadirTexto);
 			}
 		}
 	}
@@ -244,7 +263,7 @@ public class OperacionesArchivos {
 	 * @param archivo
 	 * @return
 	 */
-	public String borrarExtensionArchivo(String archivo) {
+	private String borrarExtensionArchivo(String archivo) {
 		String patronExtension = "(?<!^)[.].*";
 	    return archivo.replaceAll(patronExtension, "");
 	}

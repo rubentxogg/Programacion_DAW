@@ -1,7 +1,8 @@
 
 /**
- * @author Rubentxo
  * Clase que contiene el método main.
+ * 
+ * @author Rubentxo
  */
 public class SuperGrep {
 

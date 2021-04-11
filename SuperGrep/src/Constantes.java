@@ -1,8 +1,8 @@
 
 /**
- * @author Rubentxo
- *
  * Clase de constantes.
+ * 
+ * @author Rubentxo
  */
 public class Constantes {
 	
@@ -17,7 +17,7 @@ public class Constantes {
 	public static final String DIRECTORIO_DESTINO = "C:\\Users\\Rubentxo\\Desktop\\SuperGrep"; 
 	
 	// Extensiones
-	public static final String EXTENSION = ".txt";
+	public static final String EXTENSION_TXT = ".txt";
 	public static final String CUALQUIER_EXTENSION = "";
 	
 	// Formatos de fecha

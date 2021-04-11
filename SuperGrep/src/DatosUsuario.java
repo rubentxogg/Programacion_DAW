@@ -40,7 +40,7 @@ public class DatosUsuario {
 				return fecha;
 			}
 			else {
-				System.err.println("\n[El formato introducido no es válido.]\n");
+				System.err.println("\n[El formato introducido no es válido.]");
 				return fecha();
 			}
 		}
