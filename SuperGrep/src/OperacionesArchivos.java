@@ -86,7 +86,6 @@ public class OperacionesArchivos {
 					anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Palabra: "+'"'+palabra +'"'+" encontrada. [!]");
 					anadirLog(destinoLog, fechaActual(Constantes.FORMATO_FECHA_Y_HORA_ACTUAL)+" - Copiando fichero: "+archivos.get(i)+" a "+Constantes.DIRECTORIO_DESTINO);
 					seleccionTipoCopiaArchivos(archivos, i);
-					break;
 				}
 			}
 		}

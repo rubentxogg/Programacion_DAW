@@ -14,7 +14,7 @@ public class Constantes {
 	}
 	
 	// Directorios
-	public static final String DIRECTORIO_DESTINO = "C:\\Users\\Rubentxo\\Desktop\\SuperGrep"; 
+	public static final String DIRECTORIO_DESTINO = "C:\\Users\\20207\\Desktop\\SuperGrep"; 
 	
 	// Extensiones
 	public static final String EXTENSION_TXT = ".txt";
@@ -26,5 +26,5 @@ public class Constantes {
 	public static final String FORMATO_FECHA_LOG = "ddMMYY";
 	
 	// Log
-	public static final String DESTINO_LOG = "C:\\Users\\Rubentxo\\Desktop\\superGrep_"+OperacionesArchivos.fechaActual(FORMATO_FECHA_LOG)+".log";
+	public static final String DESTINO_LOG = "C:\\Users\\20207\\Desktop\\superGrep_"+OperacionesArchivos.fechaActual(FORMATO_FECHA_LOG)+".log";
 }
