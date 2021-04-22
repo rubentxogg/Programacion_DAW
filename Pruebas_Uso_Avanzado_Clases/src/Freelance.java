@@ -13,6 +13,7 @@ public class Freelance extends Trabajador{
 		super(nombre, id);
 		this.horasTrabajadas = horasTrabajadas;
 		this.tarifa = tarifa;
+		this.setSalario(calculoSalario());
 	}
 	
 	/**
