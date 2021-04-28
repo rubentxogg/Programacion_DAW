@@ -29,14 +29,12 @@ class LanzarAccionTest {
 
 	@Test
 	void testRecuperarValorEntrada() throws MatrizException {
-		System.out.print("[testRecuperarValorEntrada] Introduce valor de entrada válido: ");
 		assertEquals(5, lanzarAccion.recuperarValorEntrada()); // Introducir 5 como valor de entrada
 	}
 
 	@Test
 	void excepcionRecuperarValorEntrada() {
-		System.out.print("[excepcionRecuperarValorEntrada] Introduce un valor de entrada inválido: "); // Introducir un carácter
-		Exception exc = assertThrows(MatrizException.class, () -> lanzarAccion.recuperarValorEntrada()); 
+		Exception exc = assertThrows(MatrizException.class, () -> lanzarAccion.recuperarValorEntrada()); // Introducir un carácter
 		assertEquals("El valor introducido no es del tipo correcto", exc.getMessage());
 	}
 	
@@ -47,15 +45,13 @@ class LanzarAccionTest {
 
 	@Test
 	void testRellenarMatriz() {
-		System.out.println("[testRellenarMatriz] Rellena la matriz correctamente.");
 		assertEquals("matriz rellena", lanzarAccion.rellenarMatriz());
 	}
 	
 	@Test
 	void excepcionRellenarMatriz() {
-		System.out.println("[excepcionRellenarMatriz] Introduce un valor inválido."); // Introducir un carácter
 		Exception exc = assertThrows(MatrizException.class, () -> lanzarAccion.recuperarValorEntrada());
-		assertEquals(exc.getMessage()+" la matriz no se ha rellenado.", lanzarAccion.rellenarMatriz());
+		assertEquals(exc.getMessage()+" la matriz no se ha rellenado.", lanzarAccion.rellenarMatriz()); // Introducir un carácter
 	}
 
 
