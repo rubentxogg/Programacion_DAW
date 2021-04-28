@@ -2,34 +2,62 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Scanner;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class LanzarAccionTest {
+import excepciones.MatrizException;
+import principal.LanzarAccion;
 
-	@Test
-	void testLanzarAccion() {
-		fail("Not yet implemented");
+class LanzarAccionTest {
+	static LanzarAccion lanzarAccion;
+	static Scanner sc;
+	
+	@BeforeAll
+	static void testLanzarAccion() {
+		lanzarAccion = new LanzarAccion();
+		lanzarAccion.inicializarAcciones();
+		sc = lanzarAccion.getScanner();
 	}
 
 	@Test
 	void testInicializarAcciones() {
-		fail("Not yet implemented");
+		assertSame(sc, lanzarAccion.getScanner());
 	}
 
 	@Test
-	void testRecuperarValorEntrada() {
-		fail("Not yet implemented");
+	void testRecuperarValorEntrada() throws MatrizException {
+		System.out.print("[testRecuperarValorEntrada] Introduce valor de entrada válido: ");
+		assertEquals(5, lanzarAccion.recuperarValorEntrada()); // Introducir 5 como valor de entrada
 	}
 
 	@Test
-	void testTerminar() {
-		fail("Not yet implemented");
+	void excepcionRecuperarValorEntrada() {
+		System.out.print("[excepcionRecuperarValorEntrada] Introduce un valor de entrada inválido: "); // Introducir un carácter
+		Exception exc = assertThrows(MatrizException.class, () -> lanzarAccion.recuperarValorEntrada()); 
+		assertEquals("El valor introducido no es del tipo correcto", exc.getMessage());
+	}
+	
+	@AfterAll
+	static void testTerminar() {
+		lanzarAccion.terminar();
 	}
 
 	@Test
 	void testRellenarMatriz() {
-		fail("Not yet implemented");
+		System.out.println("[testRellenarMatriz] Rellena la matriz correctamente.");
+		assertEquals("matriz rellena", lanzarAccion.rellenarMatriz());
 	}
+	
+	@Test
+	void excepcionRellenarMatriz() {
+		System.out.println("[excepcionRellenarMatriz] Introduce un valor inválido."); // Introducir un carácter
+		Exception exc = assertThrows(MatrizException.class, () -> lanzarAccion.recuperarValorEntrada());
+		assertEquals(exc.getMessage()+" la matriz no se ha rellenado.", lanzarAccion.rellenarMatriz());
+	}
+
 
 	@Test
 	void testSumarDatosFila() {

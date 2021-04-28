@@ -115,4 +115,32 @@ public class LanzarAccion {
         
         return "El valor almacenado en la fila " + fila + " columna " + columna + "es " + resultado;
 	}
+
+	/**
+	 * @return the matriz
+	 */
+	public Matriz getMatriz() {
+		return matriz;
+	}
+
+	/**
+	 * @param matriz the matriz to set
+	 */
+	public void setMatriz(Matriz matriz) {
+		this.matriz = matriz;
+	}
+
+	/**
+	 * @return the scanner
+	 */
+	public Scanner getScanner() {
+		return scanner;
+	}
+
+	/**
+	 * @param scanner the scanner to set
+	 */
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
 }
