@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import excepciones.MatrizException;
 import principal.LanzarAccion;
 
-class LanzarAccionTest {
+public class LanzarAccionTest {
 	static LanzarAccion lanzarAccion;
 	static Scanner sc;
 	
@@ -22,7 +22,6 @@ class LanzarAccionTest {
 	static LanzarAccion excCalcularMediaValores;
 	static LanzarAccion excRecuperarCeldaMatriz;
 
-	
 	@BeforeAll
 	static void testLanzarAccion() {
 		lanzarAccion = new LanzarAccion();
@@ -113,9 +112,7 @@ class LanzarAccionTest {
 	@Test
 	@DisplayName("excepcionCalcularMediaValores() -> Un carácter")
 	void excepcionCalcularMediaValores() {
-		excCalcularMediaValores.rellenarMatriz();
-		Exception exc = assertThrows(MatrizException.class, () -> excCalcularMediaValores.recuperarValorEntrada());
-		assertEquals("El valor introducido no es del tipo correcto", exc.getMessage());
+		assertEquals("La matriz no está inicializada", excCalcularMediaValores.calcularMediaValores());
 	}
 
 	@Test
@@ -126,6 +123,7 @@ class LanzarAccionTest {
 	}
 	
 	@Test
+	@DisplayName("excepcionRecuperarCeldaMatriz() -> Columna y fila correcta")
 	void excepcionRecuperarCeldaMatriz() {
 		assertEquals("La matriz no está inicializada", excRecuperarCeldaMatriz.recuperarCeldaMatriz());
 	}

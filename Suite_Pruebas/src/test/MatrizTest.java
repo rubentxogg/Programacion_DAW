@@ -9,7 +9,7 @@ import excepciones.MatrizException;
 import main.matriz.Matriz;
 
 
-class MatrizTest {
+public class MatrizTest {
 	
 	static Matriz matriz;
 	static int[][] matrizBase = {{2,2,2,2}, {2,2,2,2}, {2,2,2,2}, {2,2,2,2}};
@@ -51,7 +51,7 @@ class MatrizTest {
 	}
 	
 	@Test
-	void excepcion1SumaFila() throws MatrizException {
+	void excepcion1SumaFila() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc1SumaFila.sumaFila(3));
 		assertEquals("La matriz no está inicializada", exc.getMessage());
 	}
@@ -68,13 +68,13 @@ class MatrizTest {
 	}
 	
 	@Test
-	void excepcionSumaColumna1() throws MatrizException {
+	void excepcionSumaColumna1() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc1SumaColumna.sumaColumna(5));
 		assertEquals("No existe en la matriz la columna indicada", exc.getMessage());
 	}
 	
 	@Test
-	void excepcionSumaColumna2() throws MatrizException {
+	void excepcionSumaColumna2() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc2SumaColumna.sumaColumna(5));
 		assertEquals("La matriz no está inicializada", exc.getMessage());
 	}
@@ -85,7 +85,7 @@ class MatrizTest {
 	}
 	
 	@Test
-	void excepcion1CalcularMedia() throws MatrizException {
+	void excepcion1CalcularMedia() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc1CalcularMedia.calcularMedia());
 		assertEquals("La matriz no está inicializada", exc.getMessage());
 	}
@@ -108,19 +108,19 @@ class MatrizTest {
 	}
 	
 	@Test
-	void excepcion1testGetValorConcreto() throws MatrizException {
+	void excepcion1testGetValorConcreto() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc1GetValorConcreto.getValorConcreto(3, 3));
 		assertEquals("La matriz no está inicializada", exc.getMessage());
 	}
 	
 	@Test
-	void excepcion2testGetValorConcreto() throws MatrizException {
+	void excepcion2testGetValorConcreto() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc2GetValorConcreto.getValorConcreto(6, 3));
 		assertEquals("No existe en la matriz la fila indicada", exc.getMessage());
 	}
 	
 	@Test
-	void excepcion3testGetValorConcreto() throws MatrizException {
+	void excepcion3testGetValorConcreto() {
 		Exception exc = assertThrows(MatrizException.class, () -> exc3GetValorConcreto.getValorConcreto(3, 6));
 		assertEquals("No existe en la matriz la columna indicada", exc.getMessage());
 	}

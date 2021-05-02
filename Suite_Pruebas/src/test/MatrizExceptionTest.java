@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import excepciones.MatrizException;
 
-class MatrizExceptionTest {
+public class MatrizExceptionTest {
 	
 	static MatrizException me1;
 	static MatrizException me2;
