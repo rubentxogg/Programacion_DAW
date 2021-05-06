@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int opc;
-		int cont = 0;
+		int cont = 1;
 		
 		System.out.println("[Bienvenido a seguros T-Timo, ¿Qué desea?]");
 		do {
@@ -26,12 +26,13 @@ public class Main {
 				
 				System.out.print("Introduzca el ID de cliente: ");
 				siniestro.setIdCliente(sc.nextInt());
+				sc.nextLine();
 				System.out.print("Introduzca el nombre: ");
-				siniestro.setNombre(sc.next());
+				siniestro.setNombre(sc.nextLine());
 				System.out.print("Introduzca la ciudad de residencia: ");
-				siniestro.setCiudadResidencia(sc.next());
+				siniestro.setCiudadResidencia(sc.nextLine());
 				System.out.print("Introduzca una descripción corta: ");
-				siniestro.setDescripcion(sc.next());
+				siniestro.setDescripcion(sc.nextLine());
 				listaSiniestros.add(siniestro);
 			}
 			

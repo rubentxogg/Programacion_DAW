@@ -7,25 +7,7 @@ public class Siniestro {
 	private String ciudadResidencia;
 	private String descripcion;
 
-	/**
-	 * 
-	 */
-	public Siniestro() {
-		
-	}
-	
-	/**
-	 * @param idCliente
-	 * @param nombre
-	 * @param ciudadResidencia
-	 * @param descripcion
-	 */
-	public Siniestro(int idCliente, String nombre, String ciudadResidencia, String descripcion) {
-		this.idCliente = idCliente;
-		this.nombre = nombre;
-		this.ciudadResidencia = ciudadResidencia;
-		this.descripcion = descripcion;
-	}
+
 	
 	/**
 	 * @return the idCliente
