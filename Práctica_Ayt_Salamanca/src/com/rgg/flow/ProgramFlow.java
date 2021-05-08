@@ -10,6 +10,9 @@ public class ProgramFlow {
 	public ProgramFlow() {
 		Mascota m = new Mascota();
 		m.solicitarDatosMascota();
+		m.clasificarMascotas();
+		m.mostrarListaPerros();
+		m.mostrarListaGatos();
 		m.mostrarListaMascotas();
 	}
 }
