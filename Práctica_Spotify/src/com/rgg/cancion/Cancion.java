@@ -4,7 +4,7 @@ package com.rgg.cancion;
  * @author rgg
  *
  */
-public class Cancion {
+public class Cancion implements Comparable<Cancion> {
 	
 	private String titulo;
 	private String artista;
@@ -61,6 +61,11 @@ public class Cancion {
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public int compareTo(Cancion o) {
+		return titulo.compareTo(o.getTitulo());
 	}
 	
 	

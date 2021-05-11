@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import com.rgg.cancion.Cancion;
@@ -43,7 +44,12 @@ public class Spotify2 {
 	 * 
 	 */
 	private void dale() {
-//		Collections.sort();
-		System.out.println(canciones);
+		Collections.sort(canciones);
+		
+		Iterator<Cancion> i = canciones.iterator();
+		while(i.hasNext()) {
+			Cancion c = i.next();
+			System.out.println(c.getTitulo());
+		}
 	}
 }
