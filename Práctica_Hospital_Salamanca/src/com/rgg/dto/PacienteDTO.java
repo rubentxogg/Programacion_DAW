@@ -2,7 +2,7 @@ package com.rgg.dto;
 
 /**
  * @author rgg
- * 
+ * Clase dto
  */
 public class PacienteDTO implements Comparable<PacienteDTO> {
 	
@@ -73,7 +73,10 @@ public class PacienteDTO implements Comparable<PacienteDTO> {
 	}
 	
 	/**
-	 *
+	 * Compara edades de tipo int
+	 * @return 1 si la edad comparada es mayor
+	 * @return 0 si la edad comparada es igual
+	 * @return -1 si la edad comparada es menor
 	 */
 	@Override
 	public int compareTo(PacienteDTO o) {

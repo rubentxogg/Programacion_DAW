@@ -2,16 +2,17 @@ package com.rgg.constantes;
 
 /**
  * @author rgg
- *
+ * Clase con constantes
  */
 public class Constantes {
 	
 	/**
-	 * 
+	 * Constructor privado para proteger la clase
 	 */
 	private Constantes() {
 		throw new IllegalStateException("Clase de constantes");
 	}
 	
-	public static final String LISTA_PACIENTES = "C:\\Users\\20207\\Desktop\\ListaPacientes.txt";
+	// Lista de pacientes
+	public static final String LISTA_PACIENTES = "C:\\Users\\Rubentxo\\Desktop\\ListaPacientes.txt";
 }

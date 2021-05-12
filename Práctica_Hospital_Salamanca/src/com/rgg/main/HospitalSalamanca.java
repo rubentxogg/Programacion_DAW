@@ -8,6 +8,7 @@ import com.rgg.flujo.FlujoPrograma;
  */
 public class HospitalSalamanca {
 	
+	// Método main
 	public static void main(String[] args) {
 		new FlujoPrograma();
 	}

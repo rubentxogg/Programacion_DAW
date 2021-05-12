@@ -20,6 +20,7 @@ public class Hospital {
 	static List<PacienteDTO> listaPacientes = new ArrayList<>();
 	
 	/**
+	 * Lee el fichero de pacientes
 	 * @param fichero
 	 * @throws IOException
 	 */
@@ -34,6 +35,7 @@ public class Hospital {
 	}
 	
 	/**
+	 * Método que añade un paciente a la lista
 	 * @param linea
 	 */
 	private void anadePaciente(String linea) {
@@ -43,9 +45,9 @@ public class Hospital {
 	}
 	
 	/**
-	 * 
+	 * Ordena la lista de pacientes y la imprime por pantalla
 	 */
-	public void mostrarLista() {
+	public void mostrarListaPacientes() {
 		Collections.sort(listaPacientes);
 		
 		Iterator<PacienteDTO> i = listaPacientes.iterator();
