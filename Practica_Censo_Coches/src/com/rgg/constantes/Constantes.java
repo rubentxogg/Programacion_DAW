@@ -9,5 +9,5 @@ public class Constantes {
 		throw new IllegalStateException("Clase de constantes");
 	}
 	
-	public final String LISTA_COCHES = "C:\\Users\\20207\\Desktop\\listaCochesSalamanca"; 
+	public static final String LISTA_COCHES = "C:\\Users\\Rubentxo\\Desktop\\listaCochesSalamanca.txt"; 
 }
