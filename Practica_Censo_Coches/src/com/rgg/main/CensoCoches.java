@@ -55,7 +55,7 @@ public class CensoCoches {
 	 */
 	private void anadeCoche(String linea) {
 		String[] arrayCoches = linea.split(";");
-		Coche coche = new Coche(arrayCoches[0], arrayCoches[1], arrayCoches[2]);
+		Coche coche = new Coche(arrayCoches[0].trim(), arrayCoches[1].trim(), arrayCoches[2]);
 		listaCoches.add(coche);
 	}
 }
