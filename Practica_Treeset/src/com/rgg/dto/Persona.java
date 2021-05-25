@@ -35,6 +35,20 @@ public class Persona implements Comparable<Persona>{
 
 	@Override
 	public int compareTo(Persona p) {
-		return this.edad.compareTo(p.edad);
+		if(this.getEdad().equals(p.getEdad()) && this.getNombre().equals(p.getNombre())) {
+			return 0;
+		}
+		else if(this.getEdad() > p.getEdad()) {
+			return 1;
+		}
+		else {
+			return -1;
+		}
 	}
+
+	@Override
+	public String toString() {
+		return "Persona [nombre=" + nombre + ", edad=" + edad + "]";
+	}
+	
 }
