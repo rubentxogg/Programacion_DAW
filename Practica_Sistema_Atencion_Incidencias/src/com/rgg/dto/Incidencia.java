@@ -65,6 +65,6 @@ public class Incidencia implements Comparable<Incidencia>{
 	
 	@Override
 	public int compareTo(Incidencia i) {
-		return this.getGravedad().compareTo(i.getGravedad());
+		return i.getGravedad().compareTo(this.getGravedad());
 	}
 }
