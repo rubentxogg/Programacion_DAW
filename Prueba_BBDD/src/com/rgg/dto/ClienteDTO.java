@@ -42,8 +42,4 @@ public class ClienteDTO {
 		this.telefono = telefono;
 	}
 
-	@Override
-	public String toString() {
-		return "ClienteDTO [nombre=" + nombre + ", telefono=" + telefono + "]";
-	}
 }
