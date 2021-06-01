@@ -57,4 +57,33 @@ public class ClienteModelo {
 			return listaClientes;
 		}
 	}
+	
+	/**
+	 * @param nombre
+	 * @param tfno
+	 * @param pais
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<ClienteDTO> recuperaNombreTelefonoFiltraporNombreTfnoPais(String nombre, String tfno, String pais) throws ClassNotFoundException, SQLException{
+		String query = "SELECT * FROM customers where customerName LIKE ? OR phone LIKE ? OR country LIKE ?";
+		
+		try(Connection conexionBD = DBUtils.conexionBBDD();
+				PreparedStatement ps = conexionBD.prepareStatement(query);){
+			
+			ps.setString(1, "%"+nombre+"%");
+			ps.setString(2, "%"+tfno+"%");
+			ps.setString(3, "%"+pais+"%");
+			
+			ResultSet clientesRS = ps.executeQuery();
+			List<ClienteDTO> listaClientes = new ArrayList<>();
+			
+			while(clientesRS.next()) {
+				ClienteDTO cliente = new ClienteDTO(clientesRS.getString("customerName"), clientesRS.getString("phone"));
+				listaClientes.add(cliente);
+			}
+			return listaClientes;
+		}
+	}
 }
