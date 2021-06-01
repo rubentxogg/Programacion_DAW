@@ -1,6 +1,7 @@
 package com.rgg.classicmodels.model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,19 +19,42 @@ public class ClienteModelo {
 	 * @throws SQLException
 	 */
 	public List<ClienteDTO> recuperaNombreTelefonoTodosClientes() throws ClassNotFoundException, SQLException{
-		Connection conexionBD = DBUtils.conexionBBDD();
 		
-		Statement statement = conexionBD.createStatement();
-		ResultSet clientesRS = statement.executeQuery("SELECT * FROM customers");
-		
-		List<ClienteDTO> listaClientes = new ArrayList<>();
-		
-		while(clientesRS.next()) {
-			ClienteDTO cliente = new ClienteDTO(clientesRS.getString("customerName"), clientesRS.getString("phone"));
-			listaClientes.add(cliente);
+		try(Connection conexionBD = DBUtils.conexionBBDD();
+				Statement statement = conexionBD.createStatement();){
+			ResultSet clientesRS = statement.executeQuery("SELECT * FROM customers");
+			
+			List<ClienteDTO> listaClientes = new ArrayList<>();
+			
+			while(clientesRS.next()) {
+				ClienteDTO cliente = new ClienteDTO(clientesRS.getString("customerName"), clientesRS.getString("phone"));
+				listaClientes.add(cliente);
+			}
+			return listaClientes;
 		}
-		conexionBD.close();
+	}
+	
+	/**
+	 * @param nombre
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<ClienteDTO> recuperaNombreTelefonoFiltraporNombre(String nombre) throws ClassNotFoundException, SQLException{
+		String query = "SELECT * FROM customers where customerName LIKE ?";
 		
-		return listaClientes;
+		try(Connection conexionBD = DBUtils.conexionBBDD();
+				PreparedStatement ps = conexionBD.prepareStatement(query);){
+			
+			ps.setString(1, "%"+nombre+"%");
+			ResultSet clientesRS = ps.executeQuery();
+			List<ClienteDTO> listaClientes = new ArrayList<>();
+			
+			while(clientesRS.next()) {
+				ClienteDTO cliente = new ClienteDTO(clientesRS.getString("customerName"), clientesRS.getString("phone"));
+				listaClientes.add(cliente);
+			}
+			return listaClientes;
+		}
 	}
 }

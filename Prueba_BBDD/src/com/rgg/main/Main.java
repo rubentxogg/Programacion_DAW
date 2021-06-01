@@ -9,8 +9,8 @@ public class Main {
 	
 	// Método main
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		for(ClienteDTO cliente : new ClienteModelo().recuperaNombreTelefonoTodosClientes()) {
-			System.out.println(cliente);
-		}
+		
+		VistaClientes vc = new VistaClientes();
+		vc.
 	}
 }
