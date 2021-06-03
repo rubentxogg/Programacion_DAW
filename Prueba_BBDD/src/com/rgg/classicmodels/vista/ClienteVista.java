@@ -14,7 +14,7 @@ public class ClienteVista {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void menuRecuperaNombreTelefono() throws ClassNotFoundException, SQLException {
+	private void menuRecuperaNombreTelefono() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		System.out.println("Introduzca el nombre del empleado: ");
 		
@@ -32,7 +32,7 @@ public class ClienteVista {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void menuRecuperaNombreTelefonoFiltraporNombreTfnoPais() throws ClassNotFoundException, SQLException {
+	private void menuRecuperaNombreTelefonoFiltraporNombreTfnoPais() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
 		System.out.println("Introduzca el nombre del empleado: ");
@@ -56,7 +56,7 @@ public class ClienteVista {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void menuInsertarCliente() throws ClassNotFoundException, SQLException {
+	private void menuInsertarCliente() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
 		System.out.println("Introduzca por favor el número del cliente: ");
@@ -125,7 +125,7 @@ public class ClienteVista {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void menuActualizarCliente() throws ClassNotFoundException, SQLException {
+	private void menuActualizarCliente() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
 		System.out.println("Introduzca por favor el número del cliente: ");
@@ -188,5 +188,64 @@ public class ClienteVista {
 		} else {
 			System.out.println("Se ha producido un error al introducir el registro");
 		}
+	}
+	
+	/**
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void menuBorrarCliente() throws ClassNotFoundException, SQLException {
+		Scanner sc = MiScanner.getInstance();
+		
+		System.out.print("Introduzca el número del cliente a borrar: ");
+		int numCliente = 0;
+		
+		try {
+			numCliente = Integer.parseInt(sc.nextLine());
+		} catch (NumberFormatException e) {
+			System.out.println("No se ha introducido el número del cliente");
+		}
+		
+		ClientesControlador controladorClientes = new ClientesControlador();
+		String resultado = (controladorClientes.borrarCliente(numCliente).equals(1))?"Cliente borrado con éxito.":"No se ha encontrado ningún cliente con ese número.";
+		System.out.println(resultado);
+	}
+	
+	/**
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void menuGeneralCliente() throws ClassNotFoundException, SQLException {
+		
+		Scanner sc = MiScanner.getInstance();
+		int n=0;
+		do{
+			System.out.println("Introduzca la operación que desee realizar: ");
+			
+		    System.out.println("       MENÚ PRINCIPAL PARA LA GESTIÓN DE CLIENTES");
+		    System.out.println("===============================================");
+		    System.out.println("1. Buscar cliente por nombre");
+		    System.out.println("2. Buscar cliente por nombre, teléfono o país");
+		    System.out.println("3. Insertar cliente ");
+		    System.out.println("4. Actualizar cliente ");
+		    System.out.println("5. Borrar cliente");
+		    System.out.println("6. Volver al menú principal");
+		    System.out.println("===============================================");
+		    
+		    n = Integer.parseInt(sc.nextLine());
+	    
+            if (n == 6){
+                return;
+            }
+            
+            switch(n) {
+            	case 1: menuRecuperaNombreTelefono();
+            			break;
+            	case 6: return;
+            	default: System.out.print("Elección invalida, inténtalo otra vez...");
+                		break;
+            }
+	    	
+	    } while(n!=6);
 	}
 }

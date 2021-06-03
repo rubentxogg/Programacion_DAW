@@ -218,5 +218,22 @@ public class ClienteModelo {
 		return resultado;
 	}
 	
-	
+	/**
+	 * @param customerNumber
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public Integer borrarCliente(int customerNumber) throws ClassNotFoundException, SQLException{
+		String sql = "DELETE FROM customers WHERE customerNumber = ?";
+		
+		try(Connection conexionBD = DBUtils.conexionBBDD();
+				PreparedStatement ps = conexionBD.prepareStatement(sql);){
+			
+			ps.setInt(1, customerNumber);
+			
+			Integer resultado = ps.executeUpdate();
+			return resultado;
+		}
+	}
 }

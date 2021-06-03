@@ -81,4 +81,15 @@ public class ClientesControlador {
 		ClienteModelo cm = new ClienteModelo();
 		return cm.actualizarCliente(numerocliente, nombreCliente, apellidoContacto, nombreContacto, telefono, direccion1, direccion2, ciudad, estado, codigoPostal, pais, representante, credito);
 	}
+	
+	/**
+	 * @param customerNumber
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public Integer borrarCliente(int customerNumber) throws ClassNotFoundException, SQLException {
+		ClienteModelo cm = new ClienteModelo();
+		return cm.borrarCliente(customerNumber);
+	}
 }
