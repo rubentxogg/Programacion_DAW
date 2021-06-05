@@ -161,7 +161,7 @@ public class ProductoVista {
 		do{
 			System.out.println("Introduzca la operación que desee realizar: ");
 			
-		    System.out.println("       MENÚ PRINCIPAL PARA LA GESTIÓN DE INVENTARIO");
+		    System.out.println("\n       MENÚ PRINCIPAL PARA LA GESTIÓN DE INVENTARIO");
 		    System.out.println("===============================================");
 		    System.out.println("1. Buscar producto por código, nombre, línea y descripción:");
 		    System.out.println("2. Insertar producto");

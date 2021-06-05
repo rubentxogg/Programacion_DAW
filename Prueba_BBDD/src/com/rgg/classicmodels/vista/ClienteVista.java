@@ -16,7 +16,7 @@ public class ClienteVista {
 	 */
 	private void menuRecuperaNombreTelefono() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
-		System.out.println("Introduzca el nombre del empleado: ");
+		System.out.println("Introduzca el nombre del cliente: ");
 		
 		String nombreEmpleado = sc.nextLine();
 		
@@ -35,13 +35,13 @@ public class ClienteVista {
 	private void menuRecuperaNombreTelefonoFiltraporNombreTfnoPais() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
-		System.out.println("Introduzca el nombre del empleado: ");
+		System.out.println("Introduzca el nombre del cliente: ");
 		String nombreEmpleado = sc.nextLine();
 		
-		System.out.println("Introduzca el teléfono del empleado: ");
+		System.out.println("Introduzca el teléfono del cliente: ");
 		String tfnoEmpleado = sc.nextLine();
 		
-		System.out.println("Introduzca el país del empleado: ");
+		System.out.println("Introduzca el país del cliente: ");
 		String paisEmpleado = sc.nextLine();
 		
 		ClientesControlador controladorClientes = new ClientesControlador();
@@ -222,7 +222,7 @@ public class ClienteVista {
 		do{
 			System.out.println("Introduzca la operación que desee realizar: ");
 			
-		    System.out.println("       MENÚ PRINCIPAL PARA LA GESTIÓN DE CLIENTES");
+		    System.out.println("\n       MENÚ PRINCIPAL PARA LA GESTIÓN DE CLIENTES");
 		    System.out.println("===============================================");
 		    System.out.println("1. Buscar cliente por nombre");
 		    System.out.println("2. Buscar cliente por nombre, teléfono o país");

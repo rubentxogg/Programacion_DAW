@@ -11,7 +11,7 @@ public class MenuPrincipal {
 		Scanner sc = MiScanner.getInstance();
 		int n=0;
 		do {
-	    System.out.println("       MENÚ PRINCIPAL PARA LA GESTIÓN DE LA TIENDA CLASSIC MODELS");
+	    System.out.println("\n       MENÚ PRINCIPAL PARA LA GESTIÓN DE LA TIENDA CLASSIC MODELS");
 	    System.out.println("===============================================");
 	    System.out.println("1. Gestión de inventario");
 	    System.out.println("2. Gestión de lineas productos");
@@ -28,6 +28,9 @@ public class MenuPrincipal {
 	    switch(n) {
             case 1: ProductoVista vp = new ProductoVista();
             		vp.menuGeneralProducto();
+            		break;
+            case 2: LineaProductoVista vlp = new LineaProductoVista();
+            		vlp.menuGeneralLineaProducto();
             		break;
         	case 3: ClienteVista vc = new ClienteVista();
         			vc.menuGeneralCliente();

@@ -60,7 +60,7 @@ public class ProductoModelo {
 			String descripcionProducto, int cantidadEnStock, double precioCompra, double msrp) throws ClassNotFoundException, SQLException {
 		
 		String query = "INSERT INTO products (productCode, productName, productLine, productScale, productVendor, productDescription, "
-				+ "quantityInStock, buyPrice, MSRP)"
+				+ "quantityInStock, buyPrice, MSRP) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try(Connection conexionBD = DBUtils.conexionBBDD();
