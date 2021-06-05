@@ -88,7 +88,7 @@ public class ProductoVista {
 				descripcionProducto,
 				cantidadEnStock, 
 				precioCompra,
-				msrp).equals(1)?"Se ha introducido el producto con éxito":"Se ha producido un error al introducir el producto");
+				msrp).equals(1)?"Producto introducido con éxito\n":"Se ha producido un error al introducir el producto\n");
 		System.out.println(resultado);
 	}
 	
@@ -96,7 +96,7 @@ public class ProductoVista {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void menuActualizarProducto() throws ClassNotFoundException, SQLException {
+	private void menuActualizarProducto() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
 		System.out.println("Introduzca el código de producto a actualizar:");
@@ -146,7 +146,7 @@ public class ProductoVista {
 				descripcionProducto,
 				cantidadEnStock, 
 				precioCompra,
-				msrp).equals(1)?"El producto ha sido actualizado con éxito":"Se ha producido un error en la actualización del producto");
+				msrp).equals(1)?"El producto ha sido actualizado con éxito\n":"Se ha producido un error en la actualización del producto\n");
 		System.out.println(resultado);
 	}
 	

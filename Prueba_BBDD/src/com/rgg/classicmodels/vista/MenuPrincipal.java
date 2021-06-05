@@ -35,6 +35,9 @@ public class MenuPrincipal {
         	case 3: ClienteVista vc = new ClienteVista();
         			vc.menuGeneralCliente();
         			break;
+        	case 4: EmpleadoVista ve = new EmpleadoVista();
+        			ve.menuGeneralEmpleado();
+        			break;
         	case 7: return;
         	default: System.out.print("Elección invalida, inténtalo otra vez...");
             		break;

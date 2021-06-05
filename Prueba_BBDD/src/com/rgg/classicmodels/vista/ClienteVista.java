@@ -184,9 +184,9 @@ public class ClienteVista {
 				credito);
 		
 		if (resultado == 1) {
-			System.out.println("Se ha introducido el registro con éxito");
+			System.out.println("Se ha introducido el registro con éxito\n");
 		} else {
-			System.out.println("Se ha producido un error al introducir el registro");
+			System.out.println("Se ha producido un error al introducir el registro\n");
 		}
 	}
 	
@@ -207,7 +207,7 @@ public class ClienteVista {
 		}
 		
 		ClientesControlador controladorClientes = new ClientesControlador();
-		String resultado = (controladorClientes.borrarCliente(numCliente).equals(1))?"Cliente borrado con éxito.":"No se ha encontrado ningún cliente con ese número.";
+		String resultado = (controladorClientes.borrarCliente(numCliente).equals(1))?"Cliente borrado con éxito\n":"No se ha encontrado ningún cliente con ese número\n";
 		System.out.println(resultado);
 	}
 	

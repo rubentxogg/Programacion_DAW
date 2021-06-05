@@ -54,7 +54,7 @@ public class LineaProductoVista {
 		
 		LineaProductoControlador controladorLineaProducto = new LineaProductoControlador();
 		
-		String resultado = (controladorLineaProducto.insertarLineaProducto(nombre, descripcion, descripcionHTML, imagen).equals(1)?"Se ha introducido el producto con éxito":"Se ha producido un error al introducir el producto");
+		String resultado = (controladorLineaProducto.insertarLineaProducto(nombre, descripcion, descripcionHTML, imagen).equals(1)?"Se ha introducido el producto con éxito\n":"Se ha producido un error al introducir el producto\n");
 		System.out.println(resultado);
 	}
 	
@@ -77,7 +77,7 @@ public class LineaProductoVista {
 		
 		LineaProductoControlador controladorLineaProducto = new LineaProductoControlador();
 		
-		String resultado = (controladorLineaProducto.actualizarLineaProducto(nombre, descripcion, descripcionHTML, imagen).equals(1)?"El producto ha sido actualizado con éxito":"Se ha producido un error al intentar actualizar el producto");
+		String resultado = (controladorLineaProducto.actualizarLineaProducto(nombre, descripcion, descripcionHTML, imagen).equals(1)?"El producto ha sido actualizado con éxito\n":"Se ha producido un error al intentar actualizar el producto\n");
 		System.out.println(resultado);
 		
 	}
