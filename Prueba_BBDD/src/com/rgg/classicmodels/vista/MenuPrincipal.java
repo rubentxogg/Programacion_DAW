@@ -24,22 +24,18 @@ public class MenuPrincipal {
 	    
 	  
 	    n = Integer.parseInt(sc.nextLine());
-	   
-	    	
-            if (n>7||n<1){
-                System.out.print("Elección invalida, inténtalo otra vez...");
-                continue;
-            }
-            if ( n == 2) {
-            	System.out.println("ahora ejecutaría la gestión de productos");
-            	continue;
-            }
             
-            if ( n == 3) {
-            	ClienteVista vc = new ClienteVista();
-            	vc.menuGeneralCliente();
-            	continue;
-            }
+	    switch(n) {
+            case 1: ProductoVista vp = new ProductoVista();
+            		vp.menuGeneralProducto();
+            		break;
+        	case 3: ClienteVista vc = new ClienteVista();
+        			vc.menuGeneralCliente();
+        			break;
+        	case 7: return;
+        	default: System.out.print("Elección invalida, inténtalo otra vez...");
+            		break;
+        }
 
 	    } while(n!=7);
 	}

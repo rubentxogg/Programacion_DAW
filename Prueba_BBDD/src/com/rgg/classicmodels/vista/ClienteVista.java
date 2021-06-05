@@ -233,13 +233,17 @@ public class ClienteVista {
 		    System.out.println("===============================================");
 		    
 		    n = Integer.parseInt(sc.nextLine());
-	    
-            if (n == 6){
-                return;
-            }
             
             switch(n) {
             	case 1: menuRecuperaNombreTelefono();
+            			break;
+            	case 2: menuRecuperaNombreTelefonoFiltraporNombreTfnoPais();
+            			break;
+            	case 3: menuInsertarCliente();
+            			break;
+            	case 4: menuActualizarCliente();
+            			break;
+            	case 5: menuBorrarCliente();
             			break;
             	case 6: return;
             	default: System.out.print("Elección invalida, inténtalo otra vez...");

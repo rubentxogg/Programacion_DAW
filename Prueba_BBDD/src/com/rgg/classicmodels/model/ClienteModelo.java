@@ -67,7 +67,7 @@ public class ClienteModelo {
 	 * @throws SQLException
 	 */
 	public List<ClienteDTO> recuperaNombreTelefonoFiltraporNombreTfnoPais(String nombre, String tfno, String pais) throws ClassNotFoundException, SQLException{
-		String query = "SELECT * FROM customers where customerName LIKE ? OR phone LIKE ? OR country LIKE ?";
+		String query = "SELECT * FROM customers where customerName LIKE ? AND phone LIKE ? AND country LIKE ?";
 		
 		try(Connection conexionBD = DBUtils.conexionBBDD();
 				PreparedStatement ps = conexionBD.prepareStatement(query);){
