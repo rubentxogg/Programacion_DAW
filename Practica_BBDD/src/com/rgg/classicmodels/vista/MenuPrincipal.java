@@ -41,6 +41,9 @@ public class MenuPrincipal {
         	case 5: OficinaVista vo = new OficinaVista();
         			vo.menuGeneralOficina();
         			break;
+        	case 6: PedidoVista pv = new PedidoVista();
+        			pv.menuGeneralPedido();
+        			break;
         	case 7: return;
         	default: System.out.print("Elección invalida, inténtalo otra vez...");
             		break;
