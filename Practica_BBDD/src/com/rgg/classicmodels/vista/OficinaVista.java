@@ -78,6 +78,10 @@ public class OficinaVista {
 		System.out.println(resultado);
 	}
 	
+	/**
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	private void menuActualizarOficina() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		
