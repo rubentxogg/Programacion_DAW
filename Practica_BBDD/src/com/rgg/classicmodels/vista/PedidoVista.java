@@ -23,6 +23,36 @@ public class PedidoVista {
 	private void menuCrearPedido() throws ClassNotFoundException, SQLException {
 		Scanner sc = MiScanner.getInstance();
 		List<CantidadPedidaProducto> lista = new ArrayList<>();
+		int n=0;
+		
+		do{
+			System.out.println("Introduzca el código del producto:");
+			String codigoProducto = sc.nextLine();
+			System.out.println("Introduzca la cantidad del producto:");
+			int cantidadProducto = 0;
+			try {
+				cantidadProducto = Integer.parseInt(sc.nextLine());
+			} catch(NumberFormatException e) {
+				System.out.println("Error al introducir la cantidad del producto");
+				return;
+			}
+			
+			lista.add(new CantidadPedidaProducto(codigoProducto, cantidadProducto));
+			
+			System.out.println("¿Desea añadir otro producto?");
+			System.out.println("1. Si");
+			System.out.println("2. No");
+		    
+		    n = Integer.parseInt(sc.nextLine());
+            
+            switch(n) {
+            	case 1: continue;
+            	case 2: break;
+            	default: System.out.print("Elección invalida, inténtalo otra vez...");
+                		break;
+            }
+	    	
+	    } while(n!=2);
 		
 		System.out.println("Introduzca la fecha de realización del pedido:");
 		String fechaRealizacion = sc.nextLine();
