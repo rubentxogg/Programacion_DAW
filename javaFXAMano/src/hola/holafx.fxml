@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hola.Controller">
-
-        <Label fx:id="label" prefHeight="17.0" prefWidth="445.0" text="PUUUUUUUUUUUUUUUUUUUUUUUUULSAaa" />
-        <Button fx:id="aceptar" onAction="#atiendeClickBoton" prefHeight="80.0" prefWidth="396.0" text="Aceptar" />
-   <Button fx:id="aceptar1" layoutX="10.0" layoutY="27.0" onAction="#atiendeClickBoton" prefHeight="80.0" prefWidth="396.0" text="Aceptar" />
-   <Button fx:id="aceptar11" layoutX="10.0" layoutY="107.0" onAction="#atiendeClickBoton" prefHeight="80.0" prefWidth="396.0" text="Aceptar" />
-
-</VBox>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hola.TableViewController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="297.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="id" text="ID">
+                     <VBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="campoId">
+                     <VBox.margin>
+                        <Insets left="5.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label fx:id="nombre" layoutX="10.0" layoutY="10.0" text="Nombre">
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="campoNombre" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="260.0">
+                     <VBox.margin>
+                        <Insets left="5.0" right="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </TextField>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="buscar" mnemonicParsing="false" onAction="#buscaTodasPersonas" text="Buscar">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="modificar" mnemonicParsing="false" onAction="#modifica" prefHeight="25.0" prefWidth="68.0" text="Modificar">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <TableView fx:id="tableView" onMouseClicked="#clickEnFila" prefHeight="400.0" prefWidth="305.0" HBox.hgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="columnaId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="columnaNombre" prefWidth="75.0" text="Nombre" />
+        </columns>
+      </TableView>
+   </children>
+</HBox>
