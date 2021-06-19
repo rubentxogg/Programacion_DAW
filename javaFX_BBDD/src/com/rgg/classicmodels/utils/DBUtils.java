@@ -13,13 +13,13 @@ public class DBUtils {
 	 */
 	public static Connection conexionBBDD() throws ClassNotFoundException, SQLException {
 		
-		// Con esta primera línea forzamos que cargue el driver de MySQL
+		// Con esta primera lï¿½nea forzamos que cargue el driver de MySQL
 		// En Java una clase no se carga a menos que sea necesario
-		// Dado que el código JDBC nunca referencia la driver este nunca se cargaría
+		// Dado que el cï¿½digo JDBC nunca referencia la driver este nunca se cargarï¿½a
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String servidor = "jdbc:mysql://localhost:3306/classicmodels"; // url de conexión
-		String username = "root"; // Usuario
-		String password = "PracticaRoot"; // La contraseña de la BBDD
+		String servidor = "jdbc:mysql://localhost:3306/classicmodels"; // url de conexiï¿½n
+		String username = "1234"; // Usuario
+		String password = "1234"; // La contraseï¿½a de la BBDD
 		Connection conexionBD = DriverManager.getConnection(servidor, username, password);
 		return conexionBD;
 	}

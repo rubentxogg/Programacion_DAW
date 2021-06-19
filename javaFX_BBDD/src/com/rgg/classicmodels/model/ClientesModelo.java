@@ -1,5 +1,6 @@
 package com.rgg.classicmodels.model;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rgg.classicmodels.dtos.ClienteDTO;
 import com.rgg.classicmodels.utils.DBUtils;
-import com.rgg.dtos.ClienteDTO;
 
 public class ClientesModelo {
 	

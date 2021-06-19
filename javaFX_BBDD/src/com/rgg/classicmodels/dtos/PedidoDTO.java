@@ -1,4 +1,4 @@
-package com.rgg.dtos;
+package com.rgg.classicmodels.dtos;
 
 import java.util.Date;
 
