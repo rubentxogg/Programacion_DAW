@@ -28,7 +28,7 @@ public class ClassicModelsViewController {
 
 	// Event Listener on MenuItem[#itemGestionInventario].onAction
 	@FXML
-	public void menuItemGestionInventario(ActionEvent event) throws IOException {
+	public void menuItemGestionClientes(ActionEvent event) throws IOException {
 
 		// Borramos el texto que presentamos al arrancar la aplicación
 		borderPane.getChildren().remove(textInicio);

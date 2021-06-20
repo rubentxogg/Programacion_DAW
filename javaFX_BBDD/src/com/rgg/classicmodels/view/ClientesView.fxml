@@ -14,7 +14,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rgg.classicmodels.controller.ClientesViewController">
    <children>
-      <GridPane prefHeight="594.0" prefWidth="242.0" HBox.hgrow="ALWAYS">
+      <GridPane fx:id="gridPane" prefHeight="594.0" prefWidth="242.0" HBox.hgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -103,13 +103,13 @@
             </TextField>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="13">
               <buttons>
-                <Button mnemonicParsing="false" text="Buscar" />
+                <Button fx:id="botonBuscar" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
                   <Button layoutX="35.0" layoutY="11.0" mnemonicParsing="false" text="Insertar" />
                   <Button layoutX="115.0" layoutY="11.0" mnemonicParsing="false" text="Actualizar" />
                   <Button layoutX="115.0" layoutY="11.0" mnemonicParsing="false" text="Borrar" textFill="RED" />
               </buttons>
             </ButtonBar>
-            <Label alignment="TOP_LEFT" contentDisplay="TOP" text="Número de cliente:" GridPane.halignment="CENTER">
+            <Label fx:id="labelCliente" alignment="TOP_LEFT" contentDisplay="TOP" text="Número de cliente:" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets left="60.0" />
                </GridPane.margin>
@@ -134,17 +134,17 @@
                   <Insets left="60.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="10.0" layoutY="16.0" text="Nombre contacto:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="nombreContacto" layoutX="10.0" layoutY="16.0" text="Nombre contacto:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="60.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="10.0" layoutY="16.0" text="Apellido contacto:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="apellidoContacto" layoutX="10.0" layoutY="16.0" text="Apellido contacto:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="60.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="10.0" layoutY="16.0" text="Nombre cliente:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="labelNombre" layoutX="10.0" layoutY="16.0" text="Nombre cliente:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="60.0" />
                </GridPane.margin>

@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("../view/ClassicModelsView.fxml"));
         primaryStage.setTitle("Gestión de tienda ClassicModels");
         primaryStage.sizeToScene();
-        primaryStage.getIcons().add(new Image("file:resources/car-icon.png"));
+        primaryStage.getIcons().add(new Image("resources/car-icon.png"));
         primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.show();
     }

@@ -13,9 +13,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="itemGestionInventario" mnemonicParsing="false" onAction="#menuItemGestionInventario" text="Gestión de inventario" />
+              <MenuItem fx:id="itemGestionInventario" mnemonicParsing="false" text="Gestión de inventario" />
                   <MenuItem mnemonicParsing="false" text="Gestión de líneas de productos" />
-                  <MenuItem mnemonicParsing="false" text="Gestión de clientes" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemGestionClientes" text="Gestión de clientes" />
                   <MenuItem mnemonicParsing="false" text="Gestión de empleados" />
                   <MenuItem mnemonicParsing="false" text="Gestión de oficinas" />
                   <MenuItem mnemonicParsing="false" text="Gestión de pedidos" />

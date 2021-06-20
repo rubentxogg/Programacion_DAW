@@ -14,6 +14,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 
 public class ClientesViewController {
@@ -24,7 +26,6 @@ public class ClientesViewController {
 	private TextField textFieldNombreCliente;
 	@FXML
 	private TextField textFieldPais;
-	
 	@FXML
 	private TableView<ClienteDTO> tableviewClientes;
 	@FXML
@@ -33,6 +34,10 @@ public class ClientesViewController {
 	private TableColumn<ClienteDTO, String> tableColumnNombre;
 	@FXML
 	private TableColumn<ClienteDTO, String> tableColumnTelefono;
+	@FXML
+	private Button buscar;
+	@FXML
+	private GridPane gridPane;
 
 	// Referencia al TextArea del Scene principal
 	private TextArea textAreaLog;
